@@ -14,6 +14,18 @@ const userSchema = new Schema(
       match: [/.+\@.+\..+/, "Please enter a valid email address"],
       trim: true,
     },
+    password: {
+      type: String,
+      required: [true, "Password is required"],
+    },
+    profileImage: {
+      type: String,
+      required: [true, "Profile image is required"],
+    },
+    backgroundImage: {
+      type: String,
+      default: "demo.png",
+    },
     phone: {
       type: String,
       required: [true, "User phone number is required"],

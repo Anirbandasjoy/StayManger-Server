@@ -7,10 +7,12 @@ import {
   NextFunction,
 } from "./helper/import";
 import { errorResponse } from "./helper/response";
+import userRouter from "./routes/user.routes";
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
+app.use("/api/v1/user", userRouter);
 
 app.get("/", (req: Request, res: Response) => {
   res.json({

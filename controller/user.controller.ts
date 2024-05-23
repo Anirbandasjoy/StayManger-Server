@@ -5,7 +5,8 @@ import {
   processRegistationExpiresIn,
   processRegistationSecretKey,
 } from "../helper/secret";
-import { createError } from "../helper/import";
+import { createError, sendingEmail } from "../helper/import";
+import { generateActivationEmailTemplate } from "../helper/emailTemplate";
 
 export const handleProcessRegistation = async (
   req: Request,
@@ -21,8 +22,19 @@ export const handleProcessRegistation = async (
       processRegistationSecretKey,
       processRegistationExpiresIn
     );
+    if (!token) {
+      throw createError(401, "Not Genaret Token");
+    }
+
+    const emailData = {
+      email,
+      subject: "User Activation Email",
+      html: generateActivationEmailTemplate(name, token),
+    };
+
+    await sendingEmail(emailData);
     successResponse(res, {
-      message: "Registation processing complete",
+      message: `Please Active you email : ${email}`,
       payload: { token },
     });
   } catch (error) {

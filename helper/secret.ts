@@ -5,4 +5,13 @@ const processRegistationSecretKey =
 const processRegistationExpiresIn =
   process.env.PROCESS_REGISTATION_EXPIRESIN || "1h";
 
-export { dbURL, processRegistationSecretKey, processRegistationExpiresIn };
+const smtpUserName = process.env.SMTPUSERNAME;
+const smtpPassword = process.env.SMTPPASSWORD;
+
+export {
+  dbURL,
+  processRegistationSecretKey,
+  processRegistationExpiresIn,
+  smtpUserName,
+  smtpPassword,
+};

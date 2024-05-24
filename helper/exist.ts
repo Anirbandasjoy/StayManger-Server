@@ -2,7 +2,6 @@ import mongoose from "mongoose";
 import { createError } from "./import";
 
 export const userExistByEmail = async (email: string, Model: any) => {
-  console.log({ email, Model });
   try {
     const userExist = await Model.exists({ email });
     if (userExist) {

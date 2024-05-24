@@ -9,6 +9,7 @@ import { bcrypt, createError, jwt, sendingEmail } from "../helper/import";
 import { generateActivationEmailTemplate } from "../helper/emailTemplate";
 import User from "../models/user.model";
 import { userExistByEmail } from "../helper/exist";
+import { findWithId } from "../services";
 
 export const handleProcessRegistation = async (
   req: Request,
@@ -78,6 +79,34 @@ export const handleRegisterdUser = async (
     await User.create(decoded);
     successResponse(res, {
       message: "Registation Process Complete",
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const handleUpdatePassword = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { id } = req.params;
+    const { oldPassword, newPassword, confrimPassword } = req.body;
+    const user = await findWithId(id, User);
+    const matchPassword = await bcrypt.compare(oldPassword, user.password);
+    if (!matchPassword) {
+      throw createError(400, "Old password in incorrect");
+    }
+    if (newPassword !== confrimPassword) {
+      throw createError(400, "newPassword and confrimpassword don't match");
+    }
+
+    const hashPassword = await bcrypt.hash(newPassword, 10);
+    user.password = hashPassword;
+    await user.save();
+    successResponse(res, {
+      message: "Successfully updated password",
     });
   } catch (error) {
     next(error);

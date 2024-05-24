@@ -4,6 +4,7 @@ const userRouter = Router();
 import {
   handleProcessRegistation,
   handleRegisterdUser,
+  handleUpdatePassword,
 } from "../controller/user.controller";
 import {
   validateProcessRegistation,
@@ -23,5 +24,7 @@ userRouter.post(
   runValidation,
   handleRegisterdUser
 );
+
+userRouter.post("/update-password/:id", handleUpdatePassword);
 
 export default userRouter;

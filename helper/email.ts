@@ -11,7 +11,6 @@ const transporter = nodemailer.createTransport({
 });
 
 const sendingEmail = async (emailData: any) => {
-  console.log(emailData);
   try {
     const options = {
       from: smtpUserName,
@@ -20,7 +19,7 @@ const sendingEmail = async (emailData: any) => {
       html: emailData.html,
     };
     const info = await transporter.sendMail(options);
-    console.log("Message sent: %s", info.messageId);
+    // console.log("Message sent: %s", info.messageId);
   } catch (error) {
     console.log(error);
     throw error;

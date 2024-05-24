@@ -1,6 +1,9 @@
 import { smtpUserName } from "./secret";
 
-export const generateActivationEmailTemplate = (name: string, token: string): string => {
+export const generateActivationEmailTemplate = (
+  name: string,
+  token: string
+): string => {
   return `
     <!DOCTYPE html>
     <html lang="en">
@@ -51,7 +54,7 @@ export const generateActivationEmailTemplate = (name: string, token: string): st
           <p>Dear ${name},</p>
           <p>Thank you for registering with us!</p>
           <p>Please click the following link to activate your account:</p>
-          <p><a href="http://localhost:5173/activate/token=${token}" target="_blank">Activate Account</a></p>
+          <p><a href="http://localhost:5173/user/activate/${token}" target="_blank">Activate Account</a></p>
           <p>If you did not request this registration, you can ignore this email.</p>
           <p>Best regards,</p>
           <p>The [ADJPA] Team</p>

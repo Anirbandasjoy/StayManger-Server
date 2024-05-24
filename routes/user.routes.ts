@@ -1,8 +1,14 @@
 import { Router } from "express";
 const userRouter = Router();
 
-import { handleProcessRegistation } from "../controller/user.controller";
+import {
+  handleProcessRegistation,
+  handleRegisterdUser,
+} from "../controller/user.controller";
+import { validateProcessRegistation } from "../validators/auth";
+import { runValidation } from "../validators";
 
-userRouter.post("/process-registation", handleProcessRegistation);
+userRouter.post("/process-registation", validateProcessRegistation, runValidation, handleProcessRegistation);
+userRouter.post("/registation-user", handleRegisterdUser);
 
 export default userRouter;

@@ -53,6 +53,13 @@ const validateProcessRegistation = [
     .withMessage("Role must be a string if provided"),
 ];
 
+const validateRegistationUser = [
+  body("token")
+    .trim()
+    .notEmpty()
+    .withMessage("Token is required")
+    .matches(/^[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+$/)
+    .withMessage("Token must be a valid JWT token"),
+];
 
-
-export { validateProcessRegistation };
+export { validateProcessRegistation, validateRegistationUser };

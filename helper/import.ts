@@ -3,7 +3,7 @@ import cors from "cors";
 import createError from "http-errors";
 import jwt from "jsonwebtoken";
 import nodemailer from "nodemailer";
-import sendingEmail from "./email";
+import sendingEmail from "../services/user/email";
 import bcrypt from "bcryptjs";
 
 export {

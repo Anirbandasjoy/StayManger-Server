@@ -12,11 +12,13 @@ import {
   validateUpdatePassword,
 } from "../validators/auth";
 import { runValidation } from "../validators";
+import { isLogin } from "../middleware/auth";
 
 userRouter.post(
   "/process-registation",
   validateProcessRegistation,
   runValidation,
+  isLogin,
   handleProcessRegistation
 );
 userRouter.post(

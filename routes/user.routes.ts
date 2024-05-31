@@ -9,6 +9,7 @@ import {
 import {
   validateProcessRegistation,
   validateRegistationUser,
+  validateUpdatePassword,
 } from "../validators/auth";
 import { runValidation } from "../validators";
 
@@ -25,6 +26,11 @@ userRouter.post(
   handleRegisterdUser
 );
 
-userRouter.post("/update-password/:id", handleUpdatePassword);
+userRouter.post(
+  "/update-password/:id",
+  validateUpdatePassword,
+  runValidation,
+  handleUpdatePassword
+);
 
 export default userRouter;

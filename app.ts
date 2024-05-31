@@ -5,18 +5,22 @@ import {
   Request,
   Response,
   NextFunction,
+  cookieParser,
 } from "./helper/import";
 import { errorResponse } from "./helper/response";
 import userRouter from "./routes/user.routes";
+import authRouter from "./routes/auth.router";
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
+app.use(cookieParser());
 app.use("/api/v1/user", userRouter);
+app.use("/api/v1/auth", authRouter);
 
 app.get("/", (req: Request, res: Response) => {
   res.json({
-    message: "Hello, this is Node.js, Express.js and TypeScript.",
+    message: "Hello, I am stayManager.",
   });
 });
 

@@ -17,7 +17,6 @@ export const handleProcessRegistation = async (
   next: NextFunction
 ) => {
   try {
-    console.log(req.user);
     const { name, email, password, profileImage, phone, address, department } =
       req.body;
     const hashPassword = await bcrypt.hash(password, 10);
@@ -108,6 +107,21 @@ export const handleUpdatePassword = async (
     await user.save();
     successResponse(res, {
       message: "Successfully updated password",
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const handleGetCurrentUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    successResponse(res, {
+      message: "Fetched currentUser Successfully",
+      payload: req.user,
     });
   } catch (error) {
     next(error);

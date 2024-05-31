@@ -2,6 +2,7 @@ import { Router } from "express";
 const userRouter = Router();
 
 import {
+  handleGetCurrentUser,
   handleProcessRegistation,
   handleRegisterdUser,
   handleUpdatePassword,
@@ -34,5 +35,7 @@ userRouter.post(
   runValidation,
   handleUpdatePassword
 );
+
+userRouter.get("/current-user", isLogin, handleGetCurrentUser);
 
 export default userRouter;

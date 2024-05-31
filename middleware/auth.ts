@@ -6,11 +6,11 @@ export const isLogin = (req: Request, res: Response, next: NextFunction) => {
   try {
     const accessToken = req.cookies.accessToken;
     if (!accessToken) {
-      createError(404, "accessToken not found , please login");
+      return next(createError(401, "Access token not found, please loggedIn"));
     }
     const decode = jwt.verify(accessToken, jwtAccessKey) as JwtPayload;
     if (!decode) {
-      createError(401, "Invalid token");
+      return next(createError(401, "Invalid token"));
     }
     if (!(decode as any).user) {
       return next(createError(401, "Token does not contain user information"));
@@ -26,7 +26,7 @@ export const isLogOut = (req: Request, res: Response, next: NextFunction) => {
   try {
     const accessToken = req.cookies.accessToken;
     if (accessToken) {
-      createError(200, "User alredy loggedIn");
+      return next(createError(401, "User already logged in"));
     }
     next();
   } catch (error) {

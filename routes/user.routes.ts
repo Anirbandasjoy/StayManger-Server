@@ -3,6 +3,7 @@ const userRouter = Router();
 
 import {
   handleFindAllUsers,
+  handleFindSingleUser,
   handleGetCurrentUser,
   handleProcessRegistation,
   handleRegisterdUser,
@@ -39,5 +40,6 @@ userRouter.post(
 
 userRouter.get("/current-user", isLogin, handleGetCurrentUser);
 userRouter.get("/find-allUsers", isLogin, isAdmin, handleFindAllUsers);
+userRouter.get("/find-single-user/:id", handleFindSingleUser);
 
 export default userRouter;

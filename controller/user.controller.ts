@@ -147,4 +147,19 @@ export const handleFindAllUsers = async (
   }
 };
 
-
+export const handleFindSingleUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { id } = req.params;
+    const user = await findWithId(id, User);
+    successResponse(res, {
+      message: "Single User fetched successfully",
+      payload: user,
+    });
+  } catch (error) {
+    next(error);
+  }
+};

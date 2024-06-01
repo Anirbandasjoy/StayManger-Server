@@ -33,3 +33,16 @@ export const isLogOut = (req: Request, res: Response, next: NextFunction) => {
     next(error);
   }
 };
+
+export const isAdmin = (req: Request, res: Response, next: NextFunction) => {
+  try {
+    if (req.user) {
+      if (req.user.role !== "admin") {
+        return next(createError(403, "Fobidden access"));
+      }
+    }
+    next();
+  } catch (error) {
+    next(error);
+  }
+};

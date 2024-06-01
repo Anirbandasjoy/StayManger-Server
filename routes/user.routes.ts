@@ -8,11 +8,13 @@ import {
   handleProcessRegistation,
   handleRegisterdUser,
   handleUpdatePassword,
+  handleUpdateUserRole,
 } from "../controller/user.controller";
 import {
   validateProcessRegistation,
   validateRegistationUser,
   validateUpdatePassword,
+  validateUpdateUserRole,
 } from "../validators/auth";
 import { runValidation } from "../validators";
 import { isAdmin, isLogin } from "../middleware/auth";
@@ -41,5 +43,12 @@ userRouter.post(
 userRouter.get("/current-user", isLogin, handleGetCurrentUser);
 userRouter.get("/find-allUsers", isLogin, isAdmin, handleFindAllUsers);
 userRouter.get("/find-single-user/:id", handleFindSingleUser);
+userRouter.patch(
+  "/update-role/:id",
+  validateUpdateUserRole,
+  runValidation,
+  isLogin,
+  handleUpdateUserRole
+);
 
 export default userRouter;

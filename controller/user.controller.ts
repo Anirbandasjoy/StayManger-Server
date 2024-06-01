@@ -163,3 +163,23 @@ export const handleFindSingleUser = async (
     next(error);
   }
 };
+
+export const handleUpdateUserRole = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { id } = req.params;
+    const { role } = req.body;
+    const user = await findWithId(id, User);
+    if (role !== undefined) user.role = role;
+    await user.save();
+    successResponse(res, {
+      message: "Role was updated successfully",
+      payload: user,
+    });
+  } catch (error) {
+    next(error);
+  }
+};

@@ -115,9 +115,14 @@ const validateLoginUser = [
     ),
 ];
 
+const validateUpdateUserRole = [
+  body("role").trim().notEmpty().withMessage("Role is required"),
+];
+
 export {
   validateProcessRegistation,
   validateRegistationUser,
   validateLoginUser,
   validateUpdatePassword,
+  validateUpdateUserRole,
 };

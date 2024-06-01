@@ -8,6 +8,7 @@ import {
   handleProcessRegistation,
   handleRegisterdUser,
   handleUpdatePassword,
+  handleUpdateUserInformation,
   handleUpdateUserRole,
 } from "../controller/user.controller";
 import {
@@ -50,5 +51,7 @@ userRouter.patch(
   isLogin,
   handleUpdateUserRole
 );
+
+userRouter.put("/update-userInfo/:id", isLogin, handleUpdateUserInformation);
 
 export default userRouter;

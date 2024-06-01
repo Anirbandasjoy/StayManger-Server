@@ -183,3 +183,29 @@ export const handleUpdateUserRole = async (
     next(error);
   }
 };
+
+export const handleUpdateUserInformation = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { id } = req.params;
+    const user = await findWithId(id, User);
+    const { name, profileImage, backgroundImage, phone, address, department } =
+      req.body;
+    if (name !== undefined) user.name = name;
+    if (profileImage !== undefined) user.profileImage = profileImage;
+    if (backgroundImage !== undefined) user.backgroundImage = backgroundImage;
+    if (phone !== undefined) user.phone = phone;
+    if (address !== undefined) user.address = address;
+    if (department !== undefined) user.department = department;
+    await user.save();
+    successResponse(res, {
+      message: "User info updated successfully",
+      payload: user,
+    });
+  } catch (error) {
+    next(error);
+  }
+};

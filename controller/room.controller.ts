@@ -9,6 +9,7 @@ export const handleRoomCreate = async (
   try {
     successResponse(res, {
       message: "Room was created successfully",
+      payload: req.body,
     });
   } catch (error) {
     next(error);

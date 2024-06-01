@@ -209,3 +209,23 @@ export const handleUpdateUserInformation = async (
     next(error);
   }
 };
+
+export const handleUserDelete = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { id } = req.params;
+    const deletedUser = await User.findByIdAndDelete(id);
+    if (!deletedUser) {
+      return next(createError(400, "User not deleted , somthing was rong"));
+    }
+
+    successResponse(res, {
+      message: "User was deleted successfully",
+    });
+  } catch (error) {
+    next(error);
+  }
+};

@@ -10,6 +10,7 @@ import {
   handleUpdatePassword,
   handleUpdateUserInformation,
   handleUpdateUserRole,
+  handleUserDelete,
 } from "../controller/user.controller";
 import {
   validateProcessRegistation,
@@ -53,5 +54,6 @@ userRouter.patch(
 );
 
 userRouter.put("/update-userInfo/:id", isLogin, handleUpdateUserInformation);
+userRouter.delete("/delete-user/:id", isLogin, isAdmin, handleUserDelete);
 
 export default userRouter;

@@ -1,5 +1,8 @@
 import { Router } from "express";
-import { handleRoomCreate } from "../controller/room.controller";
+import {
+  handleRoomCreate,
+  handleUpdateRommInfo,
+} from "../controller/room.controller";
 import { isAdmin, isLogin } from "../middleware/auth";
 import { validateRoomInput } from "../validators/room";
 import { runValidation } from "../validators";
@@ -13,5 +16,7 @@ roomRouter.post(
   isAdmin,
   handleRoomCreate
 );
+
+roomRouter.put("/update/:id", isLogin, isAdmin, handleUpdateRommInfo);
 
 export default roomRouter;

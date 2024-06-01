@@ -127,3 +127,24 @@ export const handleGetCurrentUser = async (
     next(error);
   }
 };
+
+export const handleFindAllUsers = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const users = await User.find();
+    if (!users || users.length === 0) {
+      return next(createError(404, "User not found "));
+    }
+    successResponse(res, {
+      message: "All users returned",
+      payload: users,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+

@@ -23,6 +23,6 @@ roomRouter.post(
 roomRouter.put("/update/:id", isLogin, isAdmin, handleUpdateRommInfo);
 roomRouter.get("/find-allRooms", handleFindAllRoom);
 roomRouter.get("/find-single-room/:id", isLogin, handleFindSingleRoom);
-roomRouter.delete("/delete-room/:id", handleDeleteRoom);
+roomRouter.delete("/delete-room/:id", isLogin, isAdmin, handleDeleteRoom);
 
 export default roomRouter;

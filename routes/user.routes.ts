@@ -2,6 +2,7 @@ import { Router } from "express";
 const userRouter = Router();
 
 import {
+  handleFindAllUsers,
   handleGetCurrentUser,
   handleProcessRegistation,
   handleRegisterdUser,
@@ -13,7 +14,7 @@ import {
   validateUpdatePassword,
 } from "../validators/auth";
 import { runValidation } from "../validators";
-import { isLogin } from "../middleware/auth";
+import { isAdmin, isLogin } from "../middleware/auth";
 
 userRouter.post(
   "/process-registation",
@@ -37,5 +38,6 @@ userRouter.post(
 );
 
 userRouter.get("/current-user", isLogin, handleGetCurrentUser);
+userRouter.get("/find-allUsers", isLogin, isAdmin, handleFindAllUsers);
 
 export default userRouter;

@@ -74,3 +74,22 @@ export const handleFindSingleRoom = async (
     next(error);
   }
 };
+
+export const handleDeleteRoom = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { id } = req.params;
+    const deletedRoom = await Room.findByIdAndDelete(id);
+    if (!deletedRoom) {
+      return next(createError(400, "Room not deleted, somthing was rong"));
+    }
+    successResponse(res, {
+      message: "Room was deleted successfully",
+    });
+  } catch (error) {
+    next(error);
+  }
+};

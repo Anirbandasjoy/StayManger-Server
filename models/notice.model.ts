@@ -8,6 +8,7 @@ const noticeSchema = new Schema(
     },
     noticeImage: {
       type: String,
+      default: null,
     },
     author: {
       type: Schema.Types.ObjectId,

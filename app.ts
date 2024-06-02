@@ -11,6 +11,7 @@ import { errorResponse } from "./helper/response";
 import userRouter from "./routes/user.routes";
 import authRouter from "./routes/auth.router";
 import roomRouter from "./routes/room.routes";
+import noticeRouter from "./routes/notice.router";
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -19,6 +20,7 @@ app.use(cookieParser());
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/room", roomRouter);
+app.use("/api/v1/notice", noticeRouter);
 
 app.get("/", (req: Request, res: Response) => {
   res.json({

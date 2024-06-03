@@ -38,3 +38,19 @@ export const handleNoticeCreate = async (
     next(error);
   }
 };
+
+export const handleFindAllNotice = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const notices = await Notice.find().populate("author");
+    successResponse(res, {
+      message: "Fetched all notice here",
+      payload: notices,
+    });
+  } catch (error) {
+    next(error);
+  }
+};

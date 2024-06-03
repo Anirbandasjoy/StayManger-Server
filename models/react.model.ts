@@ -9,10 +9,12 @@ const reactSchema = new Schema(
     user: {
       type: Schema.Types.ObjectId,
       ref: "User",
+      required: true,
     },
     notice: {
       type: Schema.Types.ObjectId,
       ref: "Notice",
+      required: true,
     },
   },
   { timestamps: true }

@@ -13,10 +13,12 @@ const commentSchema = new Schema(
     user: {
       type: Schema.Types.ObjectId,
       ref: "User",
+      required: true,
     },
     notice: {
       type: String,
       ref: "Notice",
+      required: true,
     },
   },
   { timestamps: true }

@@ -8,7 +8,9 @@ export const handleGetAllNotification = async (
   next: NextFunction
 ) => {
   try {
-    const notifications = await AdminNoticeNotification.find();
+    const notifications = await AdminNoticeNotification.find()
+      .populate("author")
+      .populate("notice");
     successResponse(res, {
       message: "Fetched all notifications",
       payload: notifications,

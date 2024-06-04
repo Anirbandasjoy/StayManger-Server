@@ -1,6 +1,7 @@
 import { Router } from "express";
 import {
   handleFindAllNotice,
+  handleGetSingleNotice,
   handleNoticeCreate,
 } from "../controller/notice.controller";
 import { isAdmin, isLogin } from "../middleware/auth";
@@ -18,5 +19,6 @@ noticeRouter.post(
   handleNoticeCreate
 );
 noticeRouter.get("/find-allNotice", isLogin, handleFindAllNotice);
+noticeRouter.get("/find-single-notice/:id", isLogin, handleGetSingleNotice);
 
 export default noticeRouter;

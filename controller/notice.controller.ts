@@ -54,3 +54,31 @@ export const handleFindAllNotice = async (
     next(error);
   }
 };
+
+export const handleGetSingleNotice = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { id } = req.params;
+    const notice = await Notice.findById(id).populate("author");
+    if (!notice) {
+      return next(createError(404, "Notice not found with this id"));
+    }
+    successResponse(res, {
+      message: "Returned single notice",
+      payload: notice,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const  handleUpdateNotice = async (req : Request, res : Response, next : NextFunction) => {
+  try {
+    
+  } catch (error) {
+    next(error)
+  }
+}

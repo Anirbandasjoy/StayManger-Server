@@ -75,10 +75,23 @@ export const handleGetSingleNotice = async (
   }
 };
 
-export const  handleUpdateNotice = async (req : Request, res : Response, next : NextFunction) => {
+export const handleUpdateNotice = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
-    
+    const { id } = req.params;
+    const { caption, noticeImage } = req.body;
+    const notice = await findWithId(id, Notice);
+    if (caption !== undefined) notice.caption = caption;
+    if (noticeImage !== undefined) notice.noticeImage = noticeImage;
+    await notice.save();
+    successResponse(res, {
+      message: "Updated notice successfully",
+      payload: notice,
+    });
   } catch (error) {
-    next(error)
+    next(error);
   }
-}
+};

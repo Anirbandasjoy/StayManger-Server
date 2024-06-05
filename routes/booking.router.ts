@@ -6,7 +6,7 @@ import {
   handleRoomBooking,
 } from "../controller/room.booking.controller";
 import { isAdmin, isLogin } from "../middleware/auth";
-import { validParamsId } from "../validators/booking";
+import { validateParamsId } from "../validators/booking";
 import { runValidation } from "../validators";
 const bookingRouter = Router();
 bookingRouter.post("/booking-request/:id", isLogin, handleBookingRequest);
@@ -18,7 +18,7 @@ bookingRouter.get(
 );
 bookingRouter.put(
   "/booking-room/:id",
-  validParamsId,
+  validateParamsId,
   runValidation,
   isLogin,
   isAdmin,
@@ -27,7 +27,7 @@ bookingRouter.put(
 
 bookingRouter.patch(
   "/cencel-request/:id",
-  validParamsId,
+  validateParamsId,
   runValidation,
   isLogin,
   isAdmin,

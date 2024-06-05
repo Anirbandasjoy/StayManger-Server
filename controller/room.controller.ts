@@ -3,6 +3,7 @@ import { successResponse } from "../helper/response";
 import Room from "../models/room.model";
 import { findWithId } from "../services";
 import { createError } from "../helper/import";
+import { Types } from "mongoose";
 
 export const handleRoomCreate = async (
   req: Request,
@@ -89,6 +90,43 @@ export const handleDeleteRoom = async (
     successResponse(res, {
       message: "Room was deleted successfully",
     });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const handleRemoveUserToRoom = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { roomId, userId } = req.params;
+  const userObjectId = new Types.ObjectId(userId);
+  const room = await findWithId(roomId, Room);
+
+  let seatRemoved = false;
+
+  if (room.sitOne?.equals(userObjectId)) {
+    room.sitOne = null;
+    seatRemoved = true;
+  } else if (room.sitTwo?.equals(userObjectId)) {
+    room.sitTwo = null;
+    seatRemoved = true;
+  } else if (room.sitThree?.equals(userObjectId)) {
+    room.sitThree = null;
+    seatRemoved = true;
+  }
+
+  if (!seatRemoved) {
+    return next(createError(400, "User has not booked a seat in this room"));
+  }
+
+  await room.save();
+
+  successResponse(res, {
+    message: "Remove user successfully in this room",
+  });
+  try {
   } catch (error) {
     next(error);
   }

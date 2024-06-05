@@ -3,11 +3,12 @@ import {
   handleDeleteRoom,
   handleFindAllRoom,
   handleFindSingleRoom,
+  handleRemoveUserToRoom,
   handleRoomCreate,
   handleUpdateRommInfo,
 } from "../controller/room.controller";
 import { isAdmin, isLogin } from "../middleware/auth";
-import { validateRoomInput } from "../validators/room";
+import { validateRoomInput, validateRoomParamsId } from "../validators/room";
 import { runValidation } from "../validators";
 const roomRouter = Router();
 
@@ -24,5 +25,13 @@ roomRouter.put("/update/:id", isLogin, isAdmin, handleUpdateRommInfo);
 roomRouter.get("/find-allRooms", handleFindAllRoom);
 roomRouter.get("/find-single-room/:id", isLogin, handleFindSingleRoom);
 roomRouter.delete("/delete-room/:id", isLogin, isAdmin, handleDeleteRoom);
+roomRouter.patch(
+  "/removeUser-fromRoom/:roomId/:userId",
+  validateRoomParamsId,
+  runValidation,
+  isLogin,
+  isAdmin,
+  handleRemoveUserToRoom
+);
 
 export default roomRouter;

@@ -65,6 +65,9 @@ export const handleRoomBooking = async (
     const { id } = req.params;
     const booking = await findWithId(id, Booking);
     const room = await findWithId(booking.room, Room);
+    if (booking.status === "cencel") {
+      return next(createError(400, "Booking request alredy cencel"));
+    }
 
     if (room.sitOne === null) {
       room.sitOne = booking.user;
@@ -90,4 +93,24 @@ export const handleRoomBooking = async (
   }
 };
 
-export const handleCencelRoomBookingRequest = (re)
+export const handleCencelRoomBookingRequest = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { id } = req.params;
+    const booking = await findWithId(id, Booking);
+    if (booking.status === "success") {
+      return next(createError(400, "Room already booking"));
+    }
+    booking.status = "cencel";
+    await booking.save();
+    successResponse(res, {
+      message: "Request cencel",
+      payload: booking,
+    });
+  } catch (error) {
+    next(error);
+  }
+};

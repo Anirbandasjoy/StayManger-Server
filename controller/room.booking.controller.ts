@@ -2,7 +2,8 @@ import { NextFunction, Request, Response } from "express";
 import { createError, mongoose } from "../helper/import";
 import { successResponse } from "../helper/response";
 import Booking from "../models/booking.model";
-
+import { findWithId } from "../services";
+import Room from "../models/room.model";
 export const handleBookingRequest = async (
   req: Request,
   res: Response,
@@ -54,3 +55,39 @@ export const handleFindAllBookingRequest = async (
     next(error);
   }
 };
+
+export const handleRoomBooking = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { id } = req.params;
+    const booking = await findWithId(id, Booking);
+    const room = await findWithId(booking.room, Room);
+
+    if (room.sitOne === null) {
+      room.sitOne = booking.user;
+    } else if (room.sitTwo === null) {
+      room.sitTwo = booking.user;
+    } else if (room.sitThree === null) {
+      room.sitThree = booking.user;
+    } else {
+      return next(createError(400, "No available seat"));
+    }
+    booking.status = "success";
+    await booking.save();
+    await room.save();
+    successResponse(res, {
+      message: "Room booking successfully",
+      payload: {
+        booking,
+        room,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const handleCencelRoomBookingRequest = (re)

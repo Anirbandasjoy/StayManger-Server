@@ -5,8 +5,8 @@ import jwt from "jsonwebtoken";
 import nodemailer from "nodemailer";
 import sendingEmail from "../services/user/email";
 import bcrypt from "bcryptjs";
-import cookieParser from "cookie-parser"
-
+import cookieParser from "cookie-parser";
+import mongoose from "mongoose";
 export {
   Request,
   Response,
@@ -17,5 +17,6 @@ export {
   nodemailer,
   sendingEmail,
   bcrypt,
-  cookieParser
+  cookieParser,
+  mongoose,
 };

@@ -5,7 +5,6 @@ import {
   handleFindAllUsers,
   handleFindSingleUser,
   handleGetCurrentUser,
-  handlePortalJoinRequest,
   handleProcessRegistation,
   handleRegisterdUser,
   handleUpdatePassword,
@@ -57,6 +56,6 @@ userRouter.patch(
 
 userRouter.put("/update-userInfo/:id", isLogin, handleUpdateUserInformation);
 userRouter.delete("/delete-user/:id", isLogin, isAdmin, handleUserDelete);
-userRouter.patch("/portal-join-request", isLogin, handlePortalJoinRequest);
+
 
 export default userRouter;

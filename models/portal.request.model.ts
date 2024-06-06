@@ -7,6 +7,11 @@ const portalRequestSchema = new Schema(
       ref: "User",
       required: true,
     },
+    status: {
+      type: String,
+      default: "pending",
+      required: true,
+    },
   },
   { timestamps: true }
 );

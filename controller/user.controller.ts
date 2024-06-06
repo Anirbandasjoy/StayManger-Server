@@ -10,6 +10,7 @@ import { generateActivationEmailTemplate } from "../helper/emailTemplate";
 import User from "../models/user.model";
 import { userExistByEmail } from "../helper/exist";
 import { findWithId } from "../services";
+import PortalRequest from "../models/portal.request.model";
 
 export const handleProcessRegistation = async (
   req: Request,
@@ -134,28 +135,28 @@ export const handleFindAllUsers = async (
   next: NextFunction
 ) => {
   try {
-    const {page = 1, limti = 2} = req.query
-    const pageNumber = parseInt(page as string)
-    const limitNumber = parseInt(limti as string)
+    const { page = 1, limti = 2 } = req.query;
+    const pageNumber = parseInt(page as string);
+    const limitNumber = parseInt(limti as string);
     const users = await User.find()
-    .skip((pageNumber - 1) * limitNumber)
-    .limit(limitNumber)
+      .skip((pageNumber - 1) * limitNumber)
+      .limit(limitNumber);
     if (!users || users.length === 0) {
       return next(createError(404, "User not found "));
     }
-    const totalUsers = await User.countDocuments()
-    const totalPage = Math.ceil(totalUsers / limitNumber)
+    const totalUsers = await User.countDocuments();
+    const totalPage = Math.ceil(totalUsers / limitNumber);
     successResponse(res, {
       message: "All users returned",
       payload: {
-        users, 
-        pagination : {
-            totalUsers , 
-            totalPage,
-            currentPage  : pageNumber,
-            pageSize : limitNumber
-        }
-      }
+        users,
+        pagination: {
+          totalUsers,
+          totalPage,
+          currentPage: pageNumber,
+          pageSize: limitNumber,
+        },
+      },
     });
   } catch (error) {
     next(error);
@@ -239,6 +240,37 @@ export const handleUserDelete = async (
 
     successResponse(res, {
       message: "User was deleted successfully",
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const handlePortalJoinRequest = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    if (!req.user) {
+      return next(createError(401, "User not Authnticated"));
+    }
+
+    if (req.user.role === "admin") {
+      return next(createError(401, "You are an admin"));
+    }
+
+    const exists = await PortalRequest.exists({ user: req.user._id });
+    if (exists) {
+      return next(createError(400, "Already send request"));
+    }
+    const request = await PortalRequest.create({ user: req.user._id });
+    if (!request) {
+      next(createError(400, "Somthing want wrong"));
+    }
+    successResponse(res, {
+      message: "Accept your request",
+      payload: request,
     });
   } catch (error) {
     next(error);

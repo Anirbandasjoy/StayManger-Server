@@ -64,3 +64,19 @@ export const handleAddedPortal = async (
     next(error);
   }
 };
+
+export const handleFindALlPoralRequest = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const portalRequests = await PortalRequest.find().populate("user");
+    successResponse(res, {
+      message: "Returned all portal request",
+      payload: portalRequests,
+    });
+  } catch (error) {
+    next(error);
+  }
+};

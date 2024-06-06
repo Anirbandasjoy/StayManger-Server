@@ -2,6 +2,7 @@ import { Router } from "express";
 import { isAdmin, isLogin } from "../middleware/auth";
 import {
   handleAddedPortal,
+  handleFindALlPoralRequest,
   handlePortalJoinRequest,
 } from "../controller/portalJoinRequest.conroller";
 import { validateParamsId } from "../validators/booking";
@@ -16,6 +17,13 @@ portalRouter.patch(
   isLogin,
   isAdmin,
   handleAddedPortal
+);
+
+portalRouter.get(
+  "/findAll-portalRequest",
+  isLogin,
+  isAdmin,
+  handleFindALlPoralRequest
 );
 
 export default portalRouter;

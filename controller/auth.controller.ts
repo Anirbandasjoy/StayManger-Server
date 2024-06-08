@@ -36,7 +36,7 @@ export const handleLogin = async (
 
     successResponse(res, {
       message: "User login successfully",
-      payload: accessToken,
+      payload: user,
     });
   } catch (error) {
     next(error);

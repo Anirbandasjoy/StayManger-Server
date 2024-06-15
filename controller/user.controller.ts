@@ -10,7 +10,6 @@ import { generateActivationEmailTemplate } from "../helper/emailTemplate";
 import User from "../models/user.model";
 import { userExistByEmail } from "../helper/exist";
 import { findWithId } from "../services";
-import PortalRequest from "../models/portal.request.model";
 
 export const handleProcessRegistation = async (
   req: Request,
@@ -113,7 +112,7 @@ export const handleUpdatePassword = async (
     next(error);
   }
 };
-
+// get current user
 export const handleGetCurrentUser = async (
   req: Request,
   res: Response,
@@ -135,7 +134,7 @@ export const handleFindAllUsers = async (
   next: NextFunction
 ) => {
   try {
-    const { page = 1, limti = 2 } = req.query;
+    const { page = 1, limti = 20 } = req.query;
     const pageNumber = parseInt(page as string);
     const limitNumber = parseInt(limti as string);
     const users = await User.find()
@@ -245,4 +244,3 @@ export const handleUserDelete = async (
     next(error);
   }
 };
-

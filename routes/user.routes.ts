@@ -20,7 +20,6 @@ import {
 } from "../validators/auth";
 import { runValidation } from "../validators";
 import { isAdmin, isLogin } from "../middleware/auth";
-import { validateParamsId } from "../validators/booking";
 
 userRouter.post(
   "/process-registation",
@@ -56,6 +55,5 @@ userRouter.patch(
 
 userRouter.put("/update-userInfo/:id", isLogin, handleUpdateUserInformation);
 userRouter.delete("/delete-user/:id", isLogin, isAdmin, handleUserDelete);
-
 
 export default userRouter;

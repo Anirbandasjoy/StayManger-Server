@@ -25,7 +25,6 @@ export const handleNoticeCreate = async (
     }
     const notice = await Notice.create(req.body);
     const notificationData = {
-      title: req.body.caption,
       author: req.user._id,
       notice: notice._id,
     };

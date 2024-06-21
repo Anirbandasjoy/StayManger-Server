@@ -25,7 +25,6 @@ userRouter.post(
   "/process-registation",
   validateProcessRegistation,
   runValidation,
-  isLogin,
   handleProcessRegistation
 );
 userRouter.post(

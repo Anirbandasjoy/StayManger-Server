@@ -1,10 +1,6 @@
 import { model, Schema } from "mongoose";
 
 const AdminNoticenotificationSchema = new Schema({
-  title: {
-    type: String,
-    required: true,
-  },
   read: {
     type: Boolean,
     default: false,

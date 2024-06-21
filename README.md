@@ -1,1 +1,10 @@
 ### workingOn
+
+PORT=5000
+dbURL=mongodb://localhost:27017/stayManagerDB
+PROCESS_REGISTATION_SECRET_KEY=dfdfdsfdsfdsfdsfdsfdsfdsfds
+PROCESS_REGISTATION_EXPIRESIN=1h
+SMTPUSERNAME=joy600508@gmail.com
+SMTPPASSWORD=ejkfuqyaeiodypdt
+JWTACCESSKEY=dfdfdsfdsfdsfdsfdsfddffdf
+JWTACCESS_EXPIRESIN=365d

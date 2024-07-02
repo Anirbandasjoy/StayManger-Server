@@ -134,24 +134,29 @@ export const handleFindAllUsers = async (
   next: NextFunction
 ) => {
   try {
-    const { page = 1, limti = 20 } = req.query;
-    const pageNumber = parseInt(page as string);
-    const limitNumber = parseInt(limti as string);
+    const { page = "1", limit = "20" } = req.query;
+
+    const pageNumber = Math.max(parseInt(page as string, 10) || 1, 1);
+    const limitNumber = Math.max(parseInt(limit as string, 10) || 20, 1);
+
     const users = await User.find()
       .skip((pageNumber - 1) * limitNumber)
       .limit(limitNumber);
+
     if (!users || users.length === 0) {
-      return next(createError(404, "User not found "));
+      return next(createError(404, "No users found"));
     }
+
     const totalUsers = await User.countDocuments();
-    const totalPage = Math.ceil(totalUsers / limitNumber);
+    const totalPages = Math.ceil(totalUsers / limitNumber);
+
     successResponse(res, {
       message: "All users returned",
       payload: {
         users,
         pagination: {
           totalUsers,
-          totalPage,
+          totalPages,
           currentPage: pageNumber,
           pageSize: limitNumber,
         },

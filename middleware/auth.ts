@@ -33,7 +33,7 @@ export const isLogOut = (req: Request, res: Response, next: NextFunction) => {
     next(error);
   }
 };
-
+// is admin
 export const isAdmin = (req: Request, res: Response, next: NextFunction) => {
   try {
     if (req.user) {

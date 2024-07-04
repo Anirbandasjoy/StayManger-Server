@@ -10,6 +10,7 @@ import { successResponse } from "../helper/response";
 import { jwtAccessExpiresin, jwtAccessKey } from "../helper/secret";
 import User from "../models/user.model";
 
+// handle lgoin logic
 export const handleLogin = async (
   req: Request,
   res: Response,

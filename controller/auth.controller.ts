@@ -44,6 +44,8 @@ export const handleLogin = async (
   }
 };
 
+// handle logout login
+
 export const handleLogOut = async (
   req: Request,
   res: Response,

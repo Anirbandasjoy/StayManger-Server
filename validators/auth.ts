@@ -33,14 +33,10 @@ const validateProcessRegistation = [
     .matches(/^01[3-9]\d{8}$/)
     .withMessage("Phone number must be a valid Bangladeshi phone number"),
 
-  body("address").trim().notEmpty().withMessage("Address is required"),
+  body("address").trim().optional(),
 
-  body("profileImage")
-    .trim()
-    .notEmpty()
-    .withMessage("profileImage is required"),
-
-  body("department").trim().notEmpty().withMessage("Department is required"),
+  body("profileImage").trim().optional(),
+  body("department").trim().optional(),
 
   body("backgroundImage")
     .optional()

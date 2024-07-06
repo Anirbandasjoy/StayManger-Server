@@ -21,10 +21,11 @@ const userSchema = new Schema(
     profileImage: {
       type: String,
       required: [true, "Profile image is required"],
+      default: null,
     },
     backgroundImage: {
       type: String,
-      default: "demo.png",
+      default: null,
     },
     phone: {
       type: String,
@@ -37,13 +38,13 @@ const userSchema = new Schema(
     },
     address: {
       type: String,
-      required: [true, "User address is required"],
       trim: true,
+      default: null,
     },
     department: {
       type: String,
-      required: [true, "Department is required"],
       trim: true,
+      default: null,
     },
     role: {
       type: String,

@@ -21,7 +21,7 @@ const sendingEmail = async (emailData: any) => {
     const info = await transporter.sendMail(options);
     console.log("Message sent: %s", info.messageId);
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     throw error;
   }
 };

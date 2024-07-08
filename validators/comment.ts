@@ -10,3 +10,12 @@ export const validateCommentInput = [
     .isMongoId()
     .withMessage("Notice must be a valid MongoDB ID"),
 ];
+
+export const validateFIndNoticeComments = [
+  param("noticeId")
+    .trim()
+    .notEmpty()
+    .withMessage("notice id is required")
+    .isMongoId()
+    .withMessage("Notice must be a valid MongoDB ID"),
+];

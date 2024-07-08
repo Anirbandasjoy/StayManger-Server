@@ -1,7 +1,13 @@
 import { Router } from "express";
-import { handleCreateComment } from "../controller/comment.controller";
+import {
+  handleCreateComment,
+  handleFindNoticeComment,
+} from "../controller/comment.controller";
 import { isLogin } from "../middleware/auth";
-import { validateCommentInput } from "../validators/comment";
+import {
+  validateCommentInput,
+  validateFIndNoticeComments,
+} from "../validators/comment";
 import { runValidation } from "../validators";
 const commentRouter = Router();
 
@@ -11,6 +17,13 @@ commentRouter.post(
   validateCommentInput,
   runValidation,
   handleCreateComment
+);
+
+commentRouter.get(
+  "/find-NoticeComments/:noticeId",
+  validateFIndNoticeComments,
+  runValidation,
+  handleFindNoticeComment
 );
 
 export default commentRouter;

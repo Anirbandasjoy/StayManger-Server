@@ -1,11 +1,13 @@
 import { Router } from "express";
 import {
   handleCreateComment,
+  handleDeleteComment,
   handleFindNoticeComment,
 } from "../controller/comment.controller";
 import { isLogin } from "../middleware/auth";
 import {
   validateCommentInput,
+  validateDeleteCommentParam,
   validateFIndNoticeComments,
 } from "../validators/comment";
 import { runValidation } from "../validators";
@@ -24,6 +26,14 @@ commentRouter.get(
   validateFIndNoticeComments,
   runValidation,
   handleFindNoticeComment
+);
+
+commentRouter.delete(
+  "/delete-comment/:commentId",
+  isLogin,
+  validateDeleteCommentParam,
+  runValidation,
+  handleDeleteComment
 );
 
 export default commentRouter;

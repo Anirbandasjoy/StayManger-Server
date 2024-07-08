@@ -19,3 +19,12 @@ export const validateFIndNoticeComments = [
     .isMongoId()
     .withMessage("Notice must be a valid MongoDB ID"),
 ];
+
+export const validateDeleteCommentParam = [
+  param("commentId")
+    .trim()
+    .notEmpty()
+    .withMessage("notice id is required")
+    .isMongoId()
+    .withMessage("Notice must be a valid MongoDB ID"),
+];

@@ -85,3 +85,38 @@ export const handleDeleteComment = async (
     next(error);
   }
 };
+
+export const handleUpdateComments = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    if (!req.user) {
+      return next(createError(401, "User not Authnticated"));
+    }
+    const { text } = req.body;
+    const commentId = req.params.commentId;
+    const comment = await findWithId(commentId, Comment);
+    const commenterUserId = comment?.user;
+    const userId = new ObjectId(req.user._id);
+    if (!commenterUserId.equals(userId)) {
+      return next(createError(403, "you are not comment author"));
+    }
+
+    const updatededComment = await Comment.findByIdAndUpdate(
+      commentId,
+      { text },
+      { new: true }
+    );
+    if (!updatededComment) {
+      return next(createError(403, "not update comment"));
+    }
+    successResponse(res, {
+      message: "Comment Updateded successfully",
+      payload: updatededComment,
+    });
+  } catch (error) {
+    next(error);
+  }
+};

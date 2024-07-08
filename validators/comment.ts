@@ -24,7 +24,18 @@ export const validateDeleteCommentParam = [
   param("commentId")
     .trim()
     .notEmpty()
-    .withMessage("notice id is required")
+    .withMessage("CommentId  is required")
     .isMongoId()
-    .withMessage("Notice must be a valid MongoDB ID"),
+    .withMessage("CommentId must be a valid MongoDB ID"),
+];
+
+export const validateCommentUpdateParam = [
+  param("commentId")
+    .trim()
+    .notEmpty()
+    .withMessage("CommentId is required")
+    .isMongoId()
+    .withMessage("CommentId must be a valid MongoDB ID"),
+
+  body("text").trim().notEmpty().withMessage("Comment text is required"),
 ];

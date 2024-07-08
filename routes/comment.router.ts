@@ -3,10 +3,12 @@ import {
   handleCreateComment,
   handleDeleteComment,
   handleFindNoticeComment,
+  handleUpdateComments,
 } from "../controller/comment.controller";
 import { isLogin } from "../middleware/auth";
 import {
   validateCommentInput,
+  validateCommentUpdateParam,
   validateDeleteCommentParam,
   validateFIndNoticeComments,
 } from "../validators/comment";
@@ -34,6 +36,14 @@ commentRouter.delete(
   validateDeleteCommentParam,
   runValidation,
   handleDeleteComment
+);
+
+commentRouter.put(
+  "/update-comment/:commentId",
+  isLogin,
+  validateCommentUpdateParam,
+  runValidation,
+  handleUpdateComments
 );
 
 export default commentRouter;

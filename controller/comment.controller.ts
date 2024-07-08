@@ -4,6 +4,7 @@ import { createError } from "../helper/import";
 import Comment from "../models/comment.model";
 import mongoose from "mongoose";
 import { findWithId } from "../services";
+import AdminNoticeNotification from "../models/adminNoticeNotification.model";
 const { ObjectId } = mongoose.Types;
 export const handleCreateComment = async (
   req: Request,
@@ -25,10 +26,15 @@ export const handleCreateComment = async (
       notice: noticeId,
     });
 
+    const notification = {
+      author: userId,
+      notice: noticeId,
+    };
+    const newNotification = await AdminNoticeNotification.create(notification);
     successResponse(res, {
       statusCode: 201,
       message: "Comment was created",
-      payload: newComment,
+      payload: { newComment, newNotification },
     });
   } catch (error) {
     next(error);

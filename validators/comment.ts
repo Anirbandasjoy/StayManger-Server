@@ -1,14 +1,12 @@
-import { body } from "express-validator";
+import { body, param } from "express-validator";
 
 export const validateCommentInput = [
   body("text").trim().notEmpty().withMessage("Comment text is required"),
-  body("commentImage").trim(),
-  body("user")
+  body("commentImage").trim().optional(),
+  param("noticeId")
     .trim()
-    .isMongoId()
-    .withMessage("User must be a valid MongoDB ID"),
-  body("notice")
-    .trim()
+    .notEmpty()
+    .withMessage("notice id is required")
     .isMongoId()
     .withMessage("Notice must be a valid MongoDB ID"),
 ];

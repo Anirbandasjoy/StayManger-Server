@@ -135,7 +135,6 @@ export const handleFindAllUsers = async (
 ) => {
   try {
     const { page = "1", limit = "20" } = req.query;
-
     const pageNumber = Math.max(parseInt(page as string, 10) || 1, 1);
     const limitNumber = Math.max(parseInt(limit as string, 10) || 20, 1);
 

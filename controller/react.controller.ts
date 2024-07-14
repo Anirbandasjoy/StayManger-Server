@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { createError } from "../helper/import";
 import React from "../models/react.model";
 import AdminNoticeNotification from "../models/adminNoticeNotification.model";
-import { successResponse } from "../helper/response";
+import { errorResponse, successResponse } from "../helper/response";
 import mongoose from "mongoose";
 import { findWithId } from "../services";
 const { ObjectId } = mongoose.Types;
@@ -17,8 +17,18 @@ export const handleCreateReact = async (
     }
     const userId = req.user?._id;
     const noticeId = req.params.noticeId;
-
     const { react } = req.body;
+
+    const existingReact = await React.findOne({
+      notice: noticeId,
+      user: userId,
+    });
+    if (existingReact) {
+      return errorResponse(res, {
+        statusCode: 403,
+        message: "react already exists for this Notice and Profile",
+      });
+    }
     const newReact = await React.create({
       react,
       user: userId,

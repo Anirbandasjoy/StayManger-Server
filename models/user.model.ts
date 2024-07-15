@@ -20,7 +20,6 @@ const userSchema = new Schema(
     },
     profileImage: {
       type: String,
-      required: [true, "Profile image is required"],
       default: null,
     },
     backgroundImage: {

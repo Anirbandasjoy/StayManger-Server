@@ -17,6 +17,7 @@ import bookingRouter from "./routes/booking.router";
 import portalRouter from "./routes/portal.router";
 import commentRouter from "./routes/comment.router";
 import reactRouter from "./routes/react.router";
+import saveRouter from "./routes/save.router";
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -36,6 +37,7 @@ app.use("/api/v1/booking", bookingRouter);
 app.use("/api/v1/portal", portalRouter);
 app.use("/api/v1/comment", commentRouter);
 app.use("/api/v1/react", reactRouter);
+app.use("/api/v1/save", saveRouter);
 
 app.get("/", (req: Request, res: Response) => {
   res.json({

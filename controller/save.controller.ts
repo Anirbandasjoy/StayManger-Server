@@ -42,7 +42,9 @@ export const handleGetSaveNoticeForUser = async (
       return next(createError(401, "User not Authnticated"));
     }
     const userId = req.user?._id;
-    const notices = await Save.find({ user: userId });
+    const notices = await Save.find({ user: userId })
+      .populate("user")
+      .populate("notice");
     successResponse(res, {
       message: "All notice returned for this user",
       payload: notices,

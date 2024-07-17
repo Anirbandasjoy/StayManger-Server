@@ -1,12 +1,16 @@
 import { Router } from "express";
 import {
+  handleDeleteNotice,
   handleFindAllNotice,
   handleGetSingleNotice,
   handleNoticeCreate,
   handleUpdateNotice,
 } from "../controller/notice.controller";
 import { isAdmin, isLogin } from "../middleware/auth";
-import { validateNotice } from "../validators/notice";
+import {
+  validateNotice,
+  validateNoticeDeleteParam,
+} from "../validators/notice";
 import { runValidation } from "../validators";
 import { validateUpdateRoomInput } from "../validators/room";
 
@@ -29,6 +33,14 @@ noticeRouter.put(
   isLogin,
   isAdmin,
   handleUpdateNotice
+);
+noticeRouter.delete(
+  "/delete/:id",
+  isLogin,
+  isAdmin,
+  validateNoticeDeleteParam,
+  runValidation,
+  handleDeleteNotice
 );
 
 export default noticeRouter;

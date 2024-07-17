@@ -94,3 +94,22 @@ export const handleUpdateNotice = async (
     next(error);
   }
 };
+
+export const handleDeleteNotice = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { id } = req.params;
+    const notice = await Notice.findByIdAndDelete(id);
+    if (!notice) {
+      return next(createError(404, "Notice not found with this id"));
+    }
+    successResponse(res, {
+      message: "Notice is deleted",
+    });
+  } catch (error) {
+    next(error);
+  }
+};

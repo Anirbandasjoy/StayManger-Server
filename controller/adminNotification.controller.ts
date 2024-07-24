@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { successResponse } from "../helper/response";
 import AdminNoticeNotification from "../models/adminNoticeNotification.model";
 
+// get all notification
 export const handleGetAllNotification = async (
   req: Request,
   res: Response,

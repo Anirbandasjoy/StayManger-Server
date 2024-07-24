@@ -3,7 +3,6 @@ import http from "http";
 import dbConnection from "./config/db";
 const PORT = process.env.PORT || 5000;
 const server = http.createServer(app);
-
 const main = async () => {
   try {
     await dbConnection();

@@ -94,3 +94,38 @@ export const handleDeleteReact = async (
     next(error);
   }
 };
+
+export const handleDislike = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    if (!req.user) {
+      return next(createError(401, "User not authenticated"));
+    }
+    const userId = req.user._id;
+    const noticeId = req.params.noticeId;
+
+    const existingReact = await React.findOne({
+      notice: noticeId,
+      user: userId,
+    }).populate("user");
+
+    if (!existingReact) {
+      return errorResponse(res, {
+        statusCode: 404,
+        message: "User has not reacted to this notice",
+      });
+    }
+
+    await React.deleteOne({ _id: existingReact._id });
+
+    successResponse(res, {
+      message: "Dislike successful",
+    });
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+};

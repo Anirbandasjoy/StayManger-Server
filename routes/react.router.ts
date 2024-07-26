@@ -9,6 +9,7 @@ import { runValidation } from "../validators";
 import {
   handleCreateReact,
   handleDeleteReact,
+  handleDislike,
   handleFindNoticeReact,
 } from "../controller/react.controller";
 const reactRouter = Router();
@@ -35,6 +36,14 @@ reactRouter.delete(
   validateDeleteReactParam,
   runValidation,
   handleDeleteReact
+);
+
+reactRouter.delete(
+  "/dislike/:noticeId",
+  isLogin,
+  validateFindNoticeReact,
+  runValidation,
+  handleDislike
 );
 
 export default reactRouter;

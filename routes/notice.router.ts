@@ -18,9 +18,9 @@ const noticeRouter = Router();
 
 noticeRouter.post(
   "/create",
+  isLogin,
   validateNotice,
   runValidation,
-  isLogin,
   isAdmin,
   handleNoticeCreate
 );
@@ -28,9 +28,9 @@ noticeRouter.get("/find-allNotice", isLogin, handleFindAllNotice);
 noticeRouter.get("/find-single-notice/:id", isLogin, handleGetSingleNotice);
 noticeRouter.put(
   "/update-notice/:id",
+  isLogin,
   validateUpdateRoomInput,
   runValidation,
-  isLogin,
   isAdmin,
   handleUpdateNotice
 );

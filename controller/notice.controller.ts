@@ -4,9 +4,7 @@ import Notice from "../models/notice.model";
 import { createError } from "../helper/import";
 import AdminNoticeNotification from "../models/adminNoticeNotification.model";
 import { findWithId } from "../services";
-import User from "../models/user.model";
 import mongoose from "mongoose";
-const { ObjectId } = mongoose.Types;
 
 export const handleNoticeCreate = async (
   req: Request,
@@ -17,13 +15,12 @@ export const handleNoticeCreate = async (
     if (!req.user) {
       return next(createError(401, "User not Authnticated"));
     }
+    const notice = await Notice.create({
+      caption: req.body.caption,
+      noticeImage: req.body.noticeImage,
+      author: req.user?._id,
+    });
 
-    const user = await findWithId(req.user._id, User);
-    const author = new ObjectId(req.body.author);
-    if (!author.equals(user._id)) {
-      return next(createError(403, "Forbidden access"));
-    }
-    const notice = await Notice.create(req.body);
     const notificationData = {
       author: req.user._id,
       notice: notice._id,

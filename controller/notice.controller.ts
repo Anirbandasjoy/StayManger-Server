@@ -4,7 +4,6 @@ import Notice from "../models/notice.model";
 import { createError } from "../helper/import";
 import AdminNoticeNotification from "../models/adminNoticeNotification.model";
 import { findWithId } from "../services";
-import mongoose from "mongoose";
 
 export const handleNoticeCreate = async (
   req: Request,
@@ -41,7 +40,7 @@ export const handleFindAllNotice = async (
   next: NextFunction
 ) => {
   try {
-    const notices = await Notice.find().populate("author");
+    const notices = (await Notice.find().populate("author")).reverse();
     successResponse(res, {
       message: "Fetched all notice here",
       payload: notices,

@@ -3,12 +3,14 @@ import {
   handleCreateReview,
   handleDeleteReview,
   handleFindRoomReview,
+  handleUpdateReview,
 } from "../controller/review.controller";
 import { isLogin } from "../middleware/auth";
 import {
   validateDeleteReview,
   validateFindRoomReview,
   validateReviewCreatedInput,
+  validateUpdateUpdateReview,
 } from "../validators/review";
 import { runValidation } from "../validators";
 
@@ -32,8 +34,15 @@ reviewRouter.delete(
   isLogin,
   validateDeleteReview,
   runValidation,
-  validateDeleteReview,
   handleDeleteReview
+);
+
+reviewRouter.put(
+  "/update-review/:reviewId",
+  isLogin,
+  validateUpdateUpdateReview,
+  runValidation,
+  handleUpdateReview
 );
 
 export default reviewRouter;

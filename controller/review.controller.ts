@@ -73,3 +73,39 @@ export const handleDeleteReview = async (
     next(error);
   }
 };
+
+export const handleUpdateReview = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    if (!req.user) {
+      return next(createError(401, "User not Authnticated")); 
+    }
+    const { message, rating } = req.body;
+    const reviewId = req.params.reviewId;
+    const review = await findWithId(reviewId, Review);
+    const reviewerUserId = review?.user;
+    const userId = new ObjectId(req.user._id);
+    if (!reviewerUserId.equals(userId)) {
+      return next(createError(403, "you are not review author"));
+    }
+
+    const updateReview = await Review.findByIdAndUpdate(
+      reviewId,
+      { message, rating },
+
+      { new: true }
+    );
+    if (!updateReview) {
+      return next(createError(403, "not update review"));
+    }
+    successResponse(res, {
+      message: "Review Updateded successfully",
+      payload: updateReview,
+    });
+  } catch (error) {
+    next(error);
+  }
+};

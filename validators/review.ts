@@ -29,3 +29,12 @@ export const validateFindRoomReview = [
     .isMongoId()
     .withMessage("Room id must be a valid MongoDB ID"),
 ];
+
+export const validateDeleteReview = [
+  param("reviewId")
+    .trim()
+    .notEmpty()
+    .withMessage("Review id is required")
+    .isMongoId()
+    .withMessage("Review id must be a valid MongoDB ID"),
+];

@@ -5,6 +5,7 @@ import {
 } from "../controller/review.controller";
 import { isLogin } from "../middleware/auth";
 import {
+  validateDeleteReview,
   validateFindRoomReview,
   validateReviewCreatedInput,
 } from "../validators/review";
@@ -24,6 +25,13 @@ reviewRouter.get(
   validateFindRoomReview,
   runValidation,
   handleFindRoomReview
+);
+reviewRouter.delete(
+  "/delete-review/:reviewId",
+  isLogin,
+  validateDeleteReview,
+  runValidation,
+  validateDeleteReview
 );
 
 export default reviewRouter;

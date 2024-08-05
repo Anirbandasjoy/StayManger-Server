@@ -100,7 +100,11 @@ export const handleRemoveUserToRoom = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { roomId, userId } = req.params;
+  const { roomId } = req.params;
+  if (!req.user) {
+    return next(createError(401, "User not Authnticated"));
+  }
+  const userId = req.user?._id;
   const userObjectId = new Types.ObjectId(userId);
   const room = await findWithId(roomId, Room);
 

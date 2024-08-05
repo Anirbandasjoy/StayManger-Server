@@ -14,10 +14,10 @@ const roomRouter = Router();
 
 roomRouter.post(
   "/create",
-  validateRoomInput,
-  runValidation,
   isLogin,
   isAdmin,
+  validateRoomInput,
+  runValidation,
   handleRoomCreate
 );
 
@@ -26,11 +26,11 @@ roomRouter.get("/find-allRooms", handleFindAllRoom);
 roomRouter.get("/find-single-room/:id", isLogin, handleFindSingleRoom);
 roomRouter.delete("/delete-room/:id", isLogin, isAdmin, handleDeleteRoom);
 roomRouter.patch(
-  "/removeUser-fromRoom/:roomId/:userId",
-  validateRoomParamsId,
-  runValidation,
+  "/removeUser-fromRoom/:roomId",
   isLogin,
   isAdmin,
+  validateRoomParamsId,
+  runValidation,
   handleRemoveUserToRoom
 );
 

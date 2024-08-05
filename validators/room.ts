@@ -15,8 +15,4 @@ export const validateRoomParamsId = [
     .trim()
     .isMongoId()
     .withMessage("roomId must be a valid MongoDB ID"),
-  param("userId")
-    .trim()
-    .isMongoId()
-    .withMessage("userId must be a valid MongoDB ID"),
 ];

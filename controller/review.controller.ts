@@ -35,7 +35,7 @@ export const handleFindRoomReview = async (
   next: NextFunction
 ) => {
   const roomId = req.params.roomId;
-  const roomReview = await Review.find({ room: roomId });
+  const roomReview = await Review.find({ room: roomId }).populate("user");
   try {
     successResponse(res, {
       message: `Returned all room : ${roomId} review`,

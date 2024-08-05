@@ -58,7 +58,7 @@ export const handleDeleteReview = async (
       return next(createError(401, "User not Authnticated"));
     }
     const reviewId = req.params.reviewId;
-    const review = await findWithId(reviewId, Comment);
+    const review = await findWithId(reviewId, Review);
     const reviewerUserID = review?.user;
     const userId = new ObjectId(req.user._id);
     if (!reviewerUserID.equals(userId)) {

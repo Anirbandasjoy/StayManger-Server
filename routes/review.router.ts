@@ -1,6 +1,7 @@
 import { Router } from "express";
 import {
   handleCreateReview,
+  handleDeleteReview,
   handleFindRoomReview,
 } from "../controller/review.controller";
 import { isLogin } from "../middleware/auth";
@@ -31,7 +32,8 @@ reviewRouter.delete(
   isLogin,
   validateDeleteReview,
   runValidation,
-  validateDeleteReview
+  validateDeleteReview,
+  handleDeleteReview
 );
 
 export default reviewRouter;

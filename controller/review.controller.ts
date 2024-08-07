@@ -5,6 +5,7 @@ import { createError } from "../helper/import";
 import Review from "../models/review.model";
 import { findWithId } from "../services";
 const { ObjectId } = mongoose.Types;
+
 export const handleCreateReview = async (
   req: Request,
   res: Response,
@@ -17,6 +18,7 @@ export const handleCreateReview = async (
     const userId = req.user._id;
     const roomId = req.params.roomId;
     const { message, rating } = req.body;
+
     await Review.create({
       message,
       rating,
@@ -47,6 +49,8 @@ export const handleFindRoomReview = async (
     next(error);
   }
 };
+
+
 
 export const handleDeleteReview = async (
   req: Request,
@@ -81,7 +85,7 @@ export const handleUpdateReview = async (
 ) => {
   try {
     if (!req.user) {
-      return next(createError(401, "User not Authnticated")); 
+      return next(createError(401, "User not Authnticated"));
     }
     const { message, rating } = req.body;
     const reviewId = req.params.reviewId;

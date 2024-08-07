@@ -18,7 +18,7 @@ export const validateReviewCreatedInput = [
     .notEmpty()
     .withMessage("Room id is required")
     .isMongoId()
-    .withMessage("Room id must be a valid MongoDB ID"),
+    .withMessage("Room id must be a valid MongoDB ID  ...."),
 ];
 
 export const validateFindRoomReview = [

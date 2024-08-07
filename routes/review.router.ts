@@ -13,7 +13,6 @@ import {
   validateUpdateUpdateReview,
 } from "../validators/review";
 import { runValidation } from "../validators";
-
 const reviewRouter = Router();
 
 reviewRouter.post(

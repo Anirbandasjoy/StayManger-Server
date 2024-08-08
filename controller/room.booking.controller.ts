@@ -29,7 +29,7 @@ export const handleBookingRequest = async (
       return next(createError(409, "User already Send Room Book Request"));
     }
 
-    const bookingRequest = await Booking.create({ user: userId, room: id });
+    await Booking.create({ user: userId, room: id });
 
     successResponse(res, {
       message: "Booking request Submitted",
@@ -109,6 +109,44 @@ export const handleCencelRoomBookingRequest = async (
       message: "Request cencel",
       payload: booking,
     });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const handleExistRequest = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    if (!req.user) {
+      return next(createError(401, "User not Authnticated"));
+    }
+    const userId = req.user?._id;
+    const roomId = req.params?.roomId;
+    const booking = await Booking.findOne({ user: userId, room: roomId });
+    if (!booking) {
+      return next(createError(404, "Booking Request not found"));
+    }
+    if (booking?.status === "pending") {
+      successResponse(res, {
+        statusCode: 206,
+        message: "Booking already exist and status pending",
+      });
+    }
+    if (booking?.status === "success") {
+      successResponse(res, {
+        statusCode: 207,
+        message: "Booking already exist and status success",
+      });
+    }
+    if (booking?.status === "cencel") {
+      successResponse(res, {
+        statusCode: 208,
+        message: "Booking already exist and status cencel",
+      });
+    }
   } catch (error) {
     next(error);
   }

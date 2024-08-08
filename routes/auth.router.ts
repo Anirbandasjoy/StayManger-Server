@@ -7,11 +7,11 @@ const authRouter = Router();
 
 authRouter.post(
   "/login",
+  isLogOut,
   validateLoginUser,
   runValidation,
-  isLogOut,
   handleLogin
 );
-authRouter.get("/logOut", isLogin, handleLogOut);
+authRouter.post("/logOut", isLogin, handleLogOut);
 
 export default authRouter;

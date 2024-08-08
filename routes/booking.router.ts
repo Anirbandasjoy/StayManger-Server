@@ -2,14 +2,24 @@ import { Router } from "express";
 import {
   handleBookingRequest,
   handleCencelRoomBookingRequest,
+  handleExistRequest,
   handleFindAllBookingRequest,
   handleRoomBooking,
 } from "../controller/room.booking.controller";
 import { isAdmin, isLogin } from "../middleware/auth";
-import { validateParamsId } from "../validators/booking";
+import {
+  validateExistRequestInput,
+  validateParamsId,
+} from "../validators/booking";
 import { runValidation } from "../validators";
 const bookingRouter = Router();
-bookingRouter.post("/booking-request/:id", isLogin, handleBookingRequest);
+bookingRouter.post(
+  "/booking-request/:id",
+  isLogin,
+  validateParamsId,
+  runValidation,
+  handleBookingRequest
+);
 bookingRouter.get(
   "/findAll-booking-request",
   isLogin,
@@ -32,6 +42,14 @@ bookingRouter.patch(
   isLogin,
   isAdmin,
   handleCencelRoomBookingRequest
+);
+
+bookingRouter.get(
+  "/exist-request/:roomId",
+  isLogin,
+  validateExistRequestInput,
+  runValidation,
+  handleExistRequest
 );
 
 export default bookingRouter;

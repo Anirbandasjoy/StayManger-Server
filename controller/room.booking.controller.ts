@@ -33,7 +33,6 @@ export const handleBookingRequest = async (
 
     successResponse(res, {
       message: "Booking request Submitted",
-      payload: bookingRequest,
     });
   } catch (error) {
     next(error);
@@ -114,5 +113,3 @@ export const handleCencelRoomBookingRequest = async (
     next(error);
   }
 };
-
-

@@ -5,6 +5,7 @@ export const successResponse = (
 ) => {
   return res.status(statusCode).json({
     success: true,
+    statusCode,
     message,
     payload,
   });
@@ -16,6 +17,7 @@ export const errorResponse = (
 ) => {
   return res.status(statusCode).json({
     success: false,
+    statusCode,
     message,
   });
 };

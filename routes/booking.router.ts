@@ -8,6 +8,7 @@ import {
 } from "../controller/room.booking.controller";
 import { isAdmin, isLogin } from "../middleware/auth";
 import {
+  validateCreateBookingRequest,
   validateExistRequestInput,
   validateParamsId,
 } from "../validators/booking";
@@ -16,7 +17,7 @@ const bookingRouter = Router();
 bookingRouter.post(
   "/booking-request/:id",
   isLogin,
-  validateParamsId,
+  validateCreateBookingRequest,
   runValidation,
   handleBookingRequest
 );

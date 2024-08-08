@@ -10,8 +10,6 @@ export const handleBookingRequest = async (
   next: NextFunction
 ) => {
   try {
-    const { id } = req.params;
-
     if (!req.user) {
       return next(createError(401, "User not Authnticated"));
     }
@@ -19,6 +17,8 @@ export const handleBookingRequest = async (
       return next(createError(403, "Not Book form Admin"));
     }
     const userId = req.user._id;
+    const { id } = req.params;
+    const { sitNumber } = req.body;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return next(createError(400, "Invalid room ID format"));
@@ -29,7 +29,7 @@ export const handleBookingRequest = async (
       return next(createError(409, "User already Send Room Book Request"));
     }
 
-    await Booking.create({ user: userId, room: id });
+    await Booking.create({ user: userId, room: id, sitNumber });
 
     successResponse(res, {
       message: "Booking request Submitted",
@@ -125,28 +125,16 @@ export const handleExistRequest = async (
     }
     const userId = req.user?._id;
     const roomId = req.params?.roomId;
-    const booking = await Booking.findOne({ user: userId, room: roomId });
+    const booking = await Booking.findOne({ user: userId, room: roomId })
+      .populate("user")
+      .populate("room");
     if (!booking) {
       return next(createError(404, "Booking Request not found"));
     }
-    if (booking?.status === "pending") {
-      successResponse(res, {
-        statusCode: 206,
-        message: "Booking already exist and status pending",
-      });
-    }
-    if (booking?.status === "success") {
-      successResponse(res, {
-        statusCode: 207,
-        message: "Booking already exist and status success",
-      });
-    }
-    if (booking?.status === "cencel") {
-      successResponse(res, {
-        statusCode: 208,
-        message: "Booking already exist and status cencel",
-      });
-    }
+    successResponse(res, {
+      message: "Returned request info",
+      payload: booking,
+    });
   } catch (error) {
     next(error);
   }

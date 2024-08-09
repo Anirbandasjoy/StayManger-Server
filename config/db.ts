@@ -1,5 +1,11 @@
 import mongoose from "mongoose";
-import { dbURL } from "../helper/secret";
+import {
+  dbURL as localDBURL,
+  p_dbURL as productionDBURL,
+} from "../helper/secret";
+
+const dbURL =
+  process.env.NODE_ENV === "production" ? productionDBURL : localDBURL;
 
 if (!dbURL) {
   throw new Error(
@@ -10,13 +16,13 @@ if (!dbURL) {
 const dbConnection = async () => {
   try {
     await mongoose.connect(dbURL as string);
-    console.log("db is connected successfully");
+    console.log("Database is connected successfully");
 
     mongoose.connection.on("error", (error) => {
-      console.error("db connection error", error);
+      console.error("Database connection error", error);
     });
   } catch (error) {
-    console.error("Initial db connection error", error);
+    console.error("Initial database connection error", error);
   }
 };
 

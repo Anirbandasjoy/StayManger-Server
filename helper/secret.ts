@@ -10,6 +10,8 @@ const smtpPassword = process.env.SMTPPASSWORD;
 const jwtAccessKey: string =
   process.env.JWTACCESSKEY || "dfdsfdsfdsfdsfdsfdsfdssfdsfdssfdsf";
 const jwtAccessExpiresin: string = process.env.JWTACCESS_EXPIRESIN || "365d";
+const client_local_url = process.env.CLIENT_LOCAL_URL;
+const client_production_url = process.env.CLIENT_PRODUCTION_URL;
 
 export {
   p_dbURL,
@@ -20,4 +22,6 @@ export {
   smtpPassword,
   jwtAccessKey,
   jwtAccessExpiresin,
+  client_local_url,
+  client_production_url,
 };

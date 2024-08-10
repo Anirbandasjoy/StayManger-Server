@@ -6,8 +6,7 @@
   "scripts": {
     "dev": "nodemon --exec ts-node index.ts",
     "start": "node --exec ts-node index.ts",
-    "build": "tsc",
-    "prod": "cross-env NODE_ENV=production node dist/index.js"
+    "build": "tsc"
   },
   "dependencies": {
     "@types/bcryptjs": "^2.4.6",

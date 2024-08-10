@@ -12,7 +12,6 @@ if (!clientURL) {
   );
 }
 
-console.log({ clientURL });
 export const generateActivationEmailTemplate = (
   name: string,
   token: string

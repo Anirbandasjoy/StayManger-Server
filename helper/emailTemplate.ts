@@ -6,6 +6,13 @@ const clientURL =
     ? client_production_url
     : client_local_url;
 
+if (!clientURL) {
+  throw new Error(
+    "clientURL URL (clientURL) is not defined in the environment variables."
+  );
+}
+
+console.log({ clientURL });
 export const generateActivationEmailTemplate = (
   name: string,
   token: string

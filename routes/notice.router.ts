@@ -12,7 +12,7 @@ import {
   validateNoticeDeleteParam,
 } from "../validators/notice";
 import { runValidation } from "../validators";
-import { validateUpdateRoomInput } from "../validators/room";
+import { validateParamsId } from "../validators/booking";
 
 const noticeRouter = Router();
 
@@ -24,12 +24,18 @@ noticeRouter.post(
   isAdmin,
   handleNoticeCreate
 );
-noticeRouter.get("/find-allNotice", isLogin, handleFindAllNotice);
-noticeRouter.get("/find-single-notice/:id", isLogin, handleGetSingleNotice);
+noticeRouter.get("/find-allNotice", handleFindAllNotice);
+noticeRouter.get(
+  "/find-single-notice/:id",
+  isLogin,
+  validateParamsId,
+  runValidation,
+  handleGetSingleNotice
+);
 noticeRouter.put(
   "/update-notice/:id",
   isLogin,
-  validateUpdateRoomInput,
+  validateParamsId,
   runValidation,
   isAdmin,
   handleUpdateNotice

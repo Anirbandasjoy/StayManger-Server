@@ -5,7 +5,8 @@
   "license": "MIT",
   "scripts": {
     "dev": "nodemon --exec ts-node index.ts",
-    "start": "cross-env NODE_ENV=production node dist/index.js",
+    "start": "node --exec ts-node index.ts",
+    "prod": "cross-env NODE_ENV=production node dist/index.js",
     "build": "tsc"
   },
   "dependencies": {

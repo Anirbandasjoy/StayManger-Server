@@ -1,6 +1,7 @@
 import { model, Schema } from "mongoose";
+import { UserDocument } from "../types/user.typs";
 
-const userSchema = new Schema(
+const userSchema = new Schema<UserDocument>(
   {
     name: {
       type: String,
@@ -16,7 +17,6 @@ const userSchema = new Schema(
     },
     password: {
       type: String,
-      required: [true, "Password is required"],
     },
     profileImage: {
       type: String,
@@ -28,12 +28,9 @@ const userSchema = new Schema(
     },
     phone: {
       type: String,
-      required: [true, "User phone number is required"],
-      match: [
-        /^(\+8801|01)[3-9]\d{8}$/,
-        "Please enter a valid Bangladeshi phone number",
-      ],
+
       trim: true,
+      default: null,
     },
     address: {
       type: String,
@@ -50,10 +47,16 @@ const userSchema = new Schema(
       default: "user",
       trim: true,
     },
+    googleId: {
+      type: String,
+      default: null,
+    },
   },
   { timestamps: true }
 );
 
-const User = model("User", userSchema);
+const User = model<UserDocument>("User", userSchema);
 
 export default User;
+
+export { UserDocument };

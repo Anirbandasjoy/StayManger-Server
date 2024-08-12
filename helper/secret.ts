@@ -12,8 +12,12 @@ const jwtAccessKey: string =
 const jwtAccessExpiresin: string = process.env.JWTACCESS_EXPIRESIN || "365d";
 const client_local_url = process.env.CLIENT_LOCAL_URL;
 const client_production_url = process.env.CLIENT_PRODUCTION_URL;
-
+const google_client_id = process.env.google_client_id || "";
+const google_client_secret = process.env.google_clinet_secret || "";
+const server_url = process.env.SERVER_URL || "";
 export {
+  google_client_id,
+  google_client_secret,
   p_dbURL,
   dbURL,
   processRegistationSecretKey,
@@ -24,4 +28,5 @@ export {
   jwtAccessExpiresin,
   client_local_url,
   client_production_url,
+  server_url,
 };

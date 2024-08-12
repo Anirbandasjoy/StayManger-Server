@@ -1,4 +1,6 @@
 import express from "express";
+import passport from "passport";
+import session from "express-session";
 import {
   cors,
   createError,
@@ -19,6 +21,7 @@ import commentRouter from "./routes/comment.router";
 import reactRouter from "./routes/react.router";
 import saveRouter from "./routes/save.router";
 import reviewRouter from "./routes/review.router";
+import "./config/passport";
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -28,6 +31,17 @@ app.use(
     credentials: true,
   })
 );
+
+app.use(
+  session({
+    secret: "session_secret",
+    resave: false,
+    saveUninitialized: true,
+  })
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(cookieParser());
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/auth", authRouter);

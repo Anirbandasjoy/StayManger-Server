@@ -12,4 +12,5 @@ export interface UserDocument extends Document {
   department?: string;
   role?: string;
   googleId?: string;
+  githubId?: string;
 }

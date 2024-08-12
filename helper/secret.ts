@@ -14,6 +14,8 @@ const client_local_url = process.env.CLIENT_LOCAL_URL;
 const client_production_url = process.env.CLIENT_PRODUCTION_URL;
 const google_client_id = process.env.google_client_id || "";
 const google_client_secret = process.env.google_clinet_secret || "";
+const github_client_id = process.env.github_clinet_id || "";
+const github_client_secret = process.env.github_clinet_secret || "";
 const server_url = process.env.SERVER_URL || "";
 export {
   google_client_id,
@@ -29,4 +31,6 @@ export {
   client_local_url,
   client_production_url,
   server_url,
+  github_client_id,
+  github_client_secret,
 };

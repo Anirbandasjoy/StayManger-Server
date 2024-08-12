@@ -1,6 +1,7 @@
 import passport from "passport";
 import { Router } from "express";
 import {
+  handleGithubLogin,
   handleGoogleLogin,
   handleLogin,
   handleLogOut,
@@ -30,6 +31,18 @@ authRouter.get(
   passport.authenticate("google", { failureRedirect: "/login" }),
   handleGoogleLogin
 );
+
+authRouter.get(
+  "/github",
+  passport.authenticate("github", { scope: ["user:email"] })
+);
+
+authRouter.get(
+  "/github/callback",
+  passport.authenticate("github", { failureRedirect: "/login" }),
+  handleGithubLogin
+);
+
 authRouter.post("/logOut", isLogin, handleLogOut);
 
 export default authRouter;

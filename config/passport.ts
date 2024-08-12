@@ -1,6 +1,9 @@
 import passport from "passport";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
+import { Strategy as GitHubStrategy } from "passport-github2";
 import {
+  github_client_id,
+  github_client_secret,
   google_client_id,
   google_client_secret,
   server_url,
@@ -30,6 +33,43 @@ passport.use(
               googleId: profile.id,
               name: profile.displayName,
               email: profile.emails?.[0].value,
+              profileImage: profile.photos?.[0].value,
+            });
+            await user.save();
+          }
+        }
+
+        done(null, user);
+      } catch (error) {
+        done(error);
+      }
+    }
+  )
+);
+
+passport.use(
+  new GitHubStrategy(
+    {
+      clientID: github_client_id,
+      clientSecret: github_client_secret,
+      callbackURL: `${server_url}/api/v1/auth/github/callback`,
+    },
+    async (accessToken: any, refreshToken: any, profile: any, done: any) => {
+      try {
+        let user = (await User.findOne({
+          githubId: profile.id,
+        })) as UserDocument | null;
+
+        if (!user) {
+          user = (await User.findOne({
+            email: profile.emails?.[0].value,
+          })) as UserDocument | null;
+
+          if (!user) {
+            user = new User({
+              githubId: profile.id,
+              name: profile.displayName,
+              email: profile.emails?.[0]?.value,
               profileImage: profile.photos?.[0].value,
             });
             await user.save();

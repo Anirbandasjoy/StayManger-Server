@@ -10,10 +10,10 @@ const userSchema = new Schema<UserDocument>(
     },
     email: {
       type: String,
-      required: [true, "User email is required"],
       unique: true,
       match: [/.+\@.+\..+/, "Please enter a valid email address"],
       trim: true,
+      default: null,
     },
     password: {
       type: String,
@@ -48,6 +48,10 @@ const userSchema = new Schema<UserDocument>(
       trim: true,
     },
     googleId: {
+      type: String,
+      default: null,
+    },
+    githubId: {
       type: String,
       default: null,
     },

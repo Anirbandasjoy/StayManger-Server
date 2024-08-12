@@ -88,6 +88,39 @@ export const handleGoogleLogin = async (
   }
 };
 
+export const handleGithubLogin = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    if (!req.user) {
+      throw createError(401, "User not authenticated");
+    }
+
+    const accessToken = createToken(
+      { user: req.user },
+      jwtAccessKey,
+      jwtAccessExpiresin
+    );
+    res.cookie("accessToken", accessToken, {
+      httpOnly: true,
+      sameSite: "none",
+      secure: true,
+      maxAge: 365 * 24 * 60 * 60 * 1000,
+    });
+
+    res.redirect("http://localhost:3000");
+
+    successResponse(res, {
+      message: "Github Login Successfully",
+      payload: req.user,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 // handle logout login
 
 export const handleLogOut = async (

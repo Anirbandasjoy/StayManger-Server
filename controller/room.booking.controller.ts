@@ -150,7 +150,9 @@ export const handleGetUserBookingRequest = async (
       return next(createError(401, "User don't authnticate"));
     }
     const userId = req.user?._id;
-    const rooms = await Booking.find({ user: userId }).populate("room");
+    const rooms = await Booking.find({ user: userId })
+      .populate("user")
+      .populate("room");
     successResponse(res, {
       message: "Return in this user all booking info",
       payload: rooms,

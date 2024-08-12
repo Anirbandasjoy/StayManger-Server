@@ -139,3 +139,23 @@ export const handleExistRequest = async (
     next(error);
   }
 };
+
+export const handleGetUserBookingRequest = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    if (!req.user) {
+      return next(createError(401, "User don't authnticate"));
+    }
+    const userId = req.user?._id;
+    const rooms = await Booking.find({ user: userId }).populate("room");
+    successResponse(res, {
+      message: "Return in this user all booking info",
+      payload: rooms,
+    });
+  } catch (error) {
+    next(error);
+  }
+};

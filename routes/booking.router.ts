@@ -4,6 +4,7 @@ import {
   handleCencelRoomBookingRequest,
   handleExistRequest,
   handleFindAllBookingRequest,
+  handleGetUserBookingRequest,
   handleRoomBooking,
 } from "../controller/room.booking.controller";
 import { isAdmin, isLogin } from "../middleware/auth";
@@ -51,6 +52,12 @@ bookingRouter.get(
   validateExistRequestInput,
   runValidation,
   handleExistRequest
+);
+
+bookingRouter.get(
+  "/user-allBooking-request",
+  isLogin,
+  handleGetUserBookingRequest
 );
 
 export default bookingRouter;

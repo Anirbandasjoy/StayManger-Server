@@ -47,6 +47,10 @@ const userSchema = new Schema<UserDocument>(
       default: "user",
       trim: true,
     },
+    birthdate : {
+      type : String,
+      default : null
+    },
     googleId: {
       type: String,
       default: null,
@@ -55,6 +59,7 @@ const userSchema = new Schema<UserDocument>(
       type: String,
       default: null,
     },
+   
   },
   { timestamps: true }
 );

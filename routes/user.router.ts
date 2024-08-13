@@ -20,6 +20,7 @@ import {
 } from "../validators/auth";
 import { runValidation } from "../validators";
 import { isAdmin, isLogin } from "../middleware/auth";
+import { validateParamsId } from "../validators/booking";
 
 userRouter.post(
   "/process-registation",
@@ -43,7 +44,13 @@ userRouter.post(
 
 userRouter.get("/current-user", isLogin, handleGetCurrentUser);
 userRouter.get("/find-allUsers", isLogin, isAdmin, handleFindAllUsers);
-userRouter.get("/find-single-user/:id", handleFindSingleUser);
+userRouter.get(
+  "/find-single-user/:id",
+  isLogin,
+  validateParamsId,
+  runValidation,
+  handleFindSingleUser
+);
 userRouter.patch(
   "/update-role/:id",
   validateUpdateUserRole,
@@ -52,7 +59,20 @@ userRouter.patch(
   handleUpdateUserRole
 );
 
-userRouter.put("/update-userInfo/:id", isLogin, handleUpdateUserInformation);
-userRouter.delete("/delete-user/:id", isLogin, isAdmin, handleUserDelete);
+userRouter.put(
+  "/update-userInfo/:id",
+  isLogin,
+  validateParamsId,
+  runValidation,
+  handleUpdateUserInformation
+);
+userRouter.delete(
+  "/delete-user/:id",
+  isLogin,
+  validateParamsId,
+  runValidation,
+  isAdmin,
+  handleUserDelete
+);
 
 export default userRouter;

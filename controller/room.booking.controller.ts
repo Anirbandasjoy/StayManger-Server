@@ -45,7 +45,9 @@ export const handleFindAllBookingRequest = async (
   next: NextFunction
 ) => {
   try {
-    const bookingRequest = await Booking.find();
+    const bookingRequest = await Booking.find()
+      .populate("user")
+      .populate("room");
     successResponse(res, {
       message: "Returned all booking request",
       payload: bookingRequest,

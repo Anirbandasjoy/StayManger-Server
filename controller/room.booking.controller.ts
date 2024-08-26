@@ -66,28 +66,46 @@ export const handleRoomBooking = async (
     const { id } = req.params;
     const booking = await findWithId(id, Booking);
     const room = await findWithId(booking.room, Room);
-    if (booking.status === "cencel") {
-      return next(createError(400, "Booking request alredy cencel"));
+
+    if (booking.status === "cancel") {
+      return next(createError(400, "Booking request already canceled"));
     }
 
-    if (room.sitOne === null) {
-      room.sitOne = booking.user;
-    } else if (room.sitTwo === null) {
-      room.sitTwo = booking.user;
-    } else if (room.sitThree === null) {
-      room.sitThree = booking.user;
-    } else {
-      return next(createError(400, "No available seat"));
+    const seatNumbers = [
+      { seat: room.sitOne, number: 1 },
+      { seat: room.sitTwo, number: 2 },
+      { seat: room.sitThree, number: 3 },
+    ];
+
+    const availableSeat = seatNumbers.find(
+      (seat) => seat.seat === null && seat.number === booking.sitNumber
+    );
+
+    if (!availableSeat) {
+      return next(
+        createError(400, "No available seat or seat number mismatch")
+      );
     }
+
+    // Assign the user to the available seat
+    switch (availableSeat.number) {
+      case 1:
+        room.sitOne = booking.user;
+        break;
+      case 2:
+        room.sitTwo = booking.user;
+        break;
+      case 3:
+        room.sitThree = booking.user;
+        break;
+    }
+
     booking.status = "success";
     await booking.save();
     await room.save();
-    successResponse(res, {
+
+    return successResponse(res, {
       message: "Room booking successfully",
-      payload: {
-        booking,
-        room,
-      },
     });
   } catch (error) {
     next(error);

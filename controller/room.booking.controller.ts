@@ -13,9 +13,9 @@ export const handleBookingRequest = async (
     if (!req.user) {
       return next(createError(401, "User not Authnticated"));
     }
-    if (req.user.role === "admin") {
-      return next(createError(403, "Not Book form Admin"));
-    }
+    // if (req.user.role === "admin") {
+    //   return next(createError(403, "Not Book form Admin"));
+    // }
     const userId = req.user._id;
     const { id } = req.params;
     const { sitNumber } = req.body;
@@ -50,7 +50,7 @@ export const handleFindAllBookingRequest = async (
       .populate("room");
     successResponse(res, {
       message: "Returned all booking request",
-      payload: bookingRequest,
+      payload: bookingRequest.reverse(),
     });
   } catch (error) {
     next(error);
@@ -64,48 +64,40 @@ export const handleRoomBooking = async (
 ) => {
   try {
     const { id } = req.params;
-    const booking = await findWithId(id, Booking);
-    const room = await findWithId(booking.room, Room);
 
+    // Find the booking by ID and populate the user field
+    const booking = await Booking.findById(id).populate("user");
+    console.log(booking);
+
+    if (!booking) {
+      return next(createError(404, "Booking not found"));
+    }
+
+    const room = await Room.findById(booking.room);
+
+    if (!room) {
+      return next(createError(404, "Room not found"));
+    }
     if (booking.status === "cancel") {
       return next(createError(400, "Booking request already canceled"));
     }
 
-    const seatNumbers = [
-      { seat: room.sitOne, number: 1 },
-      { seat: room.sitTwo, number: 2 },
-      { seat: room.sitThree, number: 3 },
-    ];
-
-    const availableSeat = seatNumbers.find(
-      (seat) => seat.seat === null && seat.number === booking.sitNumber
-    );
-
-    if (!availableSeat) {
-      return next(
-        createError(400, "No available seat or seat number mismatch")
-      );
-    }
-
-    // Assign the user to the available seat
-    switch (availableSeat.number) {
-      case 1:
-        room.sitOne = booking.user;
-        break;
-      case 2:
-        room.sitTwo = booking.user;
-        break;
-      case 3:
-        room.sitThree = booking.user;
-        break;
+    if (room.sitOne === null && booking.sitNumber === 1) {
+      room.sitOne = booking.user?._id;
+    } else if (room.sitTwo === null && booking.sitNumber === 2) {
+      room.sitTwo = booking.user?._id;
+    } else if (room.sitThere === null && booking.sitNumber === 3) {
+      room.sitThere = booking.user?._id;
+    } else {
+      return next(createError(400, "No available seat"));
     }
 
     booking.status = "success";
     await booking.save();
     await room.save();
 
-    return successResponse(res, {
-      message: "Room booking successfully",
+    successResponse(res, {
+      message: "Room booked successfully",
     });
   } catch (error) {
     next(error);
@@ -170,9 +162,11 @@ export const handleGetUserBookingRequest = async (
       return next(createError(401, "User don't authnticate"));
     }
     const userId = req.user?._id;
-    const rooms = await Booking.find({ user: userId })
+    let rooms = await Booking.find({ user: userId })
       .populate("user")
       .populate("room");
+    rooms = rooms.reverse();
+    console.log(rooms);
     successResponse(res, {
       message: "Return in this user all booking info",
       payload: rooms,

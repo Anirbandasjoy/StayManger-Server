@@ -91,9 +91,11 @@ export const handleUpdatePassword = async (
   next: NextFunction
 ) => {
   try {
-    const { id } = req.params;
+    if (!req.user) {
+      return next(createError(403, "User not authnticated"));
+    }
     const { oldPassword, newPassword, confrimPassword } = req.body;
-    const user = await findWithId(id, User);
+    const user = await findWithId(req?.user?._id, User);
     const matchPassword = await bcrypt.compare(oldPassword, user.password);
     if (!matchPassword) {
       throw createError(400, "Old password in incorrect");
@@ -119,9 +121,13 @@ export const handleGetCurrentUser = async (
   next: NextFunction
 ) => {
   try {
+    if (!req.user) {
+      return next(createError(403, "User not authenticated"));
+    }
+    const currentUser = await findWithId(req.user._id, User);
     successResponse(res, {
-      message: "Fetched currentUser Successfully",
-      payload: req.user,
+      message: "Fetched current user successfully",
+      payload: currentUser,
     });
   } catch (error) {
     next(error);
@@ -209,8 +215,10 @@ export const handleUpdateUserInformation = async (
   next: NextFunction
 ) => {
   try {
-    const { id } = req.params;
-    const user = await findWithId(id, User);
+    if (!req.user) {
+      return next(createError(403, "User not Authnticated"));
+    }
+    const user = await findWithId(req?.user?._id, User);
     const { name, profileImage, backgroundImage, phone, address, department } =
       req.body;
     if (name !== undefined) user.name = name;
@@ -219,10 +227,11 @@ export const handleUpdateUserInformation = async (
     if (phone !== undefined) user.phone = phone;
     if (address !== undefined) user.address = address;
     if (department !== undefined) user.department = department;
+
     await user.save();
+
     successResponse(res, {
       message: "User info updated successfully",
-      payload: user,
     });
   } catch (error) {
     next(error);
@@ -235,8 +244,10 @@ export const handleUserDelete = async (
   next: NextFunction
 ) => {
   try {
-    const { id } = req.params;
-    const deletedUser = await User.findByIdAndDelete(id);
+    if (!req.user) {
+      return next(createError(403, "User not Authnticated"));
+    }
+    const deletedUser = await User.findByIdAndDelete(req?.user?._id);
     if (!deletedUser) {
       return next(createError(400, "User not deleted , somthing was rong"));
     }

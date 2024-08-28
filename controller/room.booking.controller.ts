@@ -13,9 +13,9 @@ export const handleBookingRequest = async (
     if (!req.user) {
       return next(createError(401, "User not Authnticated"));
     }
-    // if (req.user.role === "admin") {
-    //   return next(createError(403, "Not Book form Admin"));
-    // }
+    if (req.user.role === "admin") {
+      return next(createError(403, "Not Book form Admin"));
+    }
     const userId = req.user._id;
     const { id } = req.params;
     const { sitNumber } = req.body;
@@ -67,7 +67,6 @@ export const handleRoomBooking = async (
 
     // Find the booking by ID and populate the user field
     const booking = await Booking.findById(id).populate("user");
-    console.log(booking);
 
     if (!booking) {
       return next(createError(404, "Booking not found"));
@@ -119,7 +118,6 @@ export const handleCencelRoomBookingRequest = async (
     await booking.save();
     successResponse(res, {
       message: "Request cencel",
-      payload: booking,
     });
   } catch (error) {
     next(error);
@@ -166,7 +164,7 @@ export const handleGetUserBookingRequest = async (
       .populate("user")
       .populate("room");
     rooms = rooms.reverse();
-    console.log(rooms);
+
     successResponse(res, {
       message: "Return in this user all booking info",
       payload: rooms,

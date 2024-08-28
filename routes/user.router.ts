@@ -59,20 +59,7 @@ userRouter.patch(
   handleUpdateUserRole
 );
 
-userRouter.put(
-  "/update-userInfo/:id",
-  isLogin,
-  validateParamsId,
-  runValidation,
-  handleUpdateUserInformation
-);
-userRouter.delete(
-  "/delete-user/:id",
-  isLogin,
-  validateParamsId,
-  runValidation,
-  isAdmin,
-  handleUserDelete
-);
+userRouter.put("/update-userInfo", isLogin, handleUpdateUserInformation);
+userRouter.delete("/delete-user", isLogin, isAdmin, handleUserDelete);
 
 export default userRouter;

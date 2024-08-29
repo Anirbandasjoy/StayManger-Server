@@ -95,13 +95,19 @@ export const handleUpdatePassword = async (
       return next(createError(403, "User not authnticated"));
     }
     const { oldPassword, newPassword, confrimPassword } = req.body;
+
     const user = await findWithId(req?.user?._id, User);
+    if (!user) {
+      return next(createError(404, "User not found"));
+    }
     const matchPassword = await bcrypt.compare(oldPassword, user.password);
     if (!matchPassword) {
-      throw createError(400, "Old password in incorrect");
+      return next(createError(401, "Old password in incorrect"));
     }
     if (newPassword !== confrimPassword) {
-      throw createError(400, "newPassword and confrimpassword don't match");
+      return next(
+        createError(403, "newPassword and confrimpassword don't match")
+      );
     }
 
     const hashPassword = await bcrypt.hash(newPassword, 10);
@@ -219,14 +225,22 @@ export const handleUpdateUserInformation = async (
       return next(createError(403, "User not Authnticated"));
     }
     const user = await findWithId(req?.user?._id, User);
-    const { name, profileImage, backgroundImage, phone, address, department } =
-      req.body;
+    const {
+      name,
+      profileImage,
+      backgroundImage,
+      phone,
+      address,
+      department,
+      birthdate,
+    } = req.body;
     if (name !== undefined) user.name = name;
     if (profileImage !== undefined) user.profileImage = profileImage;
     if (backgroundImage !== undefined) user.backgroundImage = backgroundImage;
     if (phone !== undefined) user.phone = phone;
     if (address !== undefined) user.address = address;
     if (department !== undefined) user.department = department;
+    if (birthdate !== undefined) user.birthdate = birthdate;
 
     await user.save();
 

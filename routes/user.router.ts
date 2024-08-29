@@ -35,8 +35,9 @@ userRouter.post(
   handleRegisterdUser
 );
 
-userRouter.post(
-  "/update-password/:id",
+userRouter.patch(
+  "/update-password",
+  isLogin,
   validateUpdatePassword,
   runValidation,
   handleUpdatePassword

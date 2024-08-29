@@ -46,7 +46,10 @@ export const handleFindAllRoom = async (
   next: NextFunction
 ) => {
   try {
-    const rooms = await Room.find();
+    const rooms = await Room.find()
+      .populate("sitOne")
+      .populate("sitTwo")
+      .populate("sitThere");
     if (!rooms || rooms.length === 0) {
       return next(createError(404, "Not avilable room"));
     }

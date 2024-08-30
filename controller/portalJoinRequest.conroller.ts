@@ -71,7 +71,7 @@ export const handleFindALlPoralRequest = async (
   next: NextFunction
 ) => {
   try {
-    const portalRequests = await (
+    const portalRequests = (
       await PortalRequest.find().populate("user")
     ).reverse();
     successResponse(res, {

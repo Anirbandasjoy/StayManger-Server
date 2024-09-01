@@ -6,7 +6,7 @@ import {
   handleNoticeCreate,
   handleUpdateNotice,
 } from "../controller/notice.controller";
-import { isAdmin, isLogin, isStudent } from "../middleware/auth";
+import { isAdmin, isLogin, isVerifyNotice } from "../middleware/auth";
 import {
   validateNotice,
   validateNoticeDeleteParam,
@@ -19,16 +19,16 @@ const noticeRouter = Router();
 noticeRouter.post(
   "/create",
   isLogin,
+  isAdmin,
   validateNotice,
   runValidation,
-  isAdmin,
   handleNoticeCreate
 );
-noticeRouter.get("/find-allNotice", isStudent, handleFindAllNotice);
+noticeRouter.get("/find-allNotice", isVerifyNotice, handleFindAllNotice);
 noticeRouter.get(
   "/find-single-notice/:id",
   isLogin,
-  isStudent,
+  isVerifyNotice,
   validateParamsId,
   runValidation,
   handleGetSingleNotice

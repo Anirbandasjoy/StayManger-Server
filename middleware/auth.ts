@@ -59,3 +59,23 @@ export const isStudent = (req: Request, res: Response, next: NextFunction) => {
     next(error);
   }
 };
+
+export const isVerifyNotice = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    if (req.user) {
+      if (
+        !req.user ||
+        (req.user.role !== "student" && req.user.role !== "admin")
+      ) {
+        return next(createError(403, "Fobidden access"));
+      }
+    }
+    next();
+  } catch (error) {
+    next(error);
+  }
+};

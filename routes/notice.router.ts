@@ -6,7 +6,7 @@ import {
   handleNoticeCreate,
   handleUpdateNotice,
 } from "../controller/notice.controller";
-import { isAdmin, isLogin } from "../middleware/auth";
+import { isAdmin, isLogin, isStudent } from "../middleware/auth";
 import {
   validateNotice,
   validateNoticeDeleteParam,
@@ -24,10 +24,11 @@ noticeRouter.post(
   isAdmin,
   handleNoticeCreate
 );
-noticeRouter.get("/find-allNotice", handleFindAllNotice);
+noticeRouter.get("/find-allNotice", isStudent, handleFindAllNotice);
 noticeRouter.get(
   "/find-single-notice/:id",
   isLogin,
+  isStudent,
   validateParamsId,
   runValidation,
   handleGetSingleNotice
@@ -35,9 +36,9 @@ noticeRouter.get(
 noticeRouter.put(
   "/update-notice/:id",
   isLogin,
+  isAdmin,
   validateParamsId,
   runValidation,
-  isAdmin,
   handleUpdateNotice
 );
 noticeRouter.delete(

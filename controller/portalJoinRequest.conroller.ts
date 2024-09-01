@@ -58,7 +58,7 @@ export const handleAddedPortal = async (
 
     successResponse(res, {
       message: "your portal request has been accepted",
-      payload: { portal, user },
+     
     });
   } catch (error) {
     next(error);

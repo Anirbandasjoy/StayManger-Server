@@ -46,3 +46,16 @@ export const isAdmin = (req: Request, res: Response, next: NextFunction) => {
     next(error);
   }
 };
+
+export const isStudent = (req: Request, res: Response, next: NextFunction) => {
+  try {
+    if (req.user) {
+      if (req.user.role !== "student") {
+        return next(createError(403, "Fobidden access"));
+      }
+    }
+    next();
+  } catch (error) {
+    next(error);
+  }
+};

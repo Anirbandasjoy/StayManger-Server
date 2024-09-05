@@ -1,8 +1,7 @@
-import mongoose, { ConnectOptions } from "mongoose";
+import mongoose from "mongoose";
 import { p_dbURL } from "../helper/secret";
-import { dbURL as local } from "../helper/secret";
 
-const dbURL = local;
+const dbURL = p_dbURL;
 
 if (!dbURL) {
   throw new Error(

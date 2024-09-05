@@ -24,7 +24,12 @@ noticeRouter.post(
   runValidation,
   handleNoticeCreate
 );
-noticeRouter.get("/find-allNotice", isVerifyNotice, handleFindAllNotice);
+noticeRouter.get(
+  "/find-allNotice",
+  isLogin,
+  // isVerifyNotice,
+  handleFindAllNotice
+);
 noticeRouter.get(
   "/find-single-notice/:id",
   isLogin,

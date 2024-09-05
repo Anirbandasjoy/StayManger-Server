@@ -59,7 +59,6 @@ export const isStudent = (req: Request, res: Response, next: NextFunction) => {
     next(error);
   }
 };
-
 export const isVerifyNotice = (
   req: Request,
   res: Response,
@@ -67,14 +66,13 @@ export const isVerifyNotice = (
 ) => {
   try {
     if (req.user) {
-      if (
-        !req.user ||
-        (req.user.role !== "student" && req.user.role !== "admin")
-      ) {
-        return next(createError(403, "Fobidden access"));
+      if (req.user.role !== "admin" && req.user.role !== "student") {
+        return next(createError(403, "Forbidden notice access"));
       }
+      return next();
     }
-    next();
+
+    return next(createError(401, "Unauthorized access"));
   } catch (error) {
     next(error);
   }

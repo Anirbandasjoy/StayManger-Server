@@ -1,3 +1,4 @@
+import { CookieOptions } from "express";
 import {
   bcrypt,
   createError,
@@ -39,8 +40,8 @@ export const handleLogin = async (
     const accessToken = createToken({ user }, jwtAccessKey, jwtAccessExpiresin);
     res.cookie("accessToken", accessToken, {
       httpOnly: true,
-      sameSite: "none",
-      secure: true,
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
+      secure: process.env.NODE_ENV === "production",
       maxAge: 365 * 24 * 60 * 60 * 1000,
     });
 
@@ -72,8 +73,8 @@ export const handleGoogleLogin = async (
     );
     res.cookie("accessToken", accessToken, {
       httpOnly: true,
-      sameSite: "none",
-      secure: true,
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
+      secure: process.env.NODE_ENV === "production",
       maxAge: 365 * 24 * 60 * 60 * 1000,
     });
 
@@ -105,8 +106,8 @@ export const handleGithubLogin = async (
     );
     res.cookie("accessToken", accessToken, {
       httpOnly: true,
-      sameSite: "none",
-      secure: true,
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
+      secure: process.env.NODE_ENV === "production",
       maxAge: 365 * 24 * 60 * 60 * 1000,
     });
 
@@ -129,7 +130,13 @@ export const handleLogOut = async (
   next: NextFunction
 ) => {
   try {
-    res.clearCookie("accessToken");
+    const cookieOptions: CookieOptions = {
+      httpOnly: true,
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
+      secure: process.env.NODE_ENV === "production",
+    };
+
+    res.clearCookie("accessToken", cookieOptions);
     successResponse(res, {
       message: "LogOut successfully",
     });

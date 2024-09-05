@@ -1,11 +1,8 @@
-import mongoose from "mongoose";
-import {
-  dbURL as localDBURL,
-  p_dbURL as productionDBURL,
-} from "../helper/secret";
+import mongoose, { ConnectOptions } from "mongoose";
+import { p_dbURL } from "../helper/secret";
+import { dbURL as local } from "../helper/secret";
 
-const dbURL =
-  process.env.NODE_ENV === "production" ? productionDBURL : localDBURL;
+const dbURL = local;
 
 if (!dbURL) {
   throw new Error(

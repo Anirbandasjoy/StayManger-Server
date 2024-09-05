@@ -28,6 +28,7 @@ userRouter.post(
   runValidation,
   handleProcessRegistation
 );
+
 userRouter.post(
   "/registation-user",
   validateRegistationUser,

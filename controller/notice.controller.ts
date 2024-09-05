@@ -4,6 +4,9 @@ import Notice from "../models/notice.model";
 import { createError } from "../helper/import";
 import AdminNoticeNotification from "../models/adminNoticeNotification.model";
 import { findWithId } from "../services";
+import Comment from "../models/comment.model";
+import React from "../models/react.model";
+import { calculateNoticeScore } from "../services/notice";
 
 export const handleNoticeCreate = async (
   req: Request,
@@ -38,12 +41,24 @@ export const handleFindAllNotice = async (
   req: Request,
   res: Response,
   next: NextFunction
-) => {
+): Promise<void> => {
   try {
-    const notices = (await Notice.find().populate("author")).reverse();
+    const notices = await Notice.find().populate("author").exec();
+    const scoredNotices = await Promise.all(
+      notices.map(async (notice) => {
+        const commentsCount = await Comment.countDocuments({
+          notice: notice._id,
+        });
+        const reactsCount = await React.countDocuments({ notice: notice._id });
+        const score = calculateNoticeScore(notice, commentsCount, reactsCount);
+        return { ...notice.toObject(), score, commentsCount, reactsCount };
+      })
+    );
+    const sortedNotices = scoredNotices.sort((a, b) => b.score - a.score);
+
     successResponse(res, {
-      message: "Fetched all notice here",
-      payload: notices,
+      message: "Fetched all notices with Facebook-like algorithm",
+      payload: sortedNotices,
     });
   } catch (error) {
     next(error);

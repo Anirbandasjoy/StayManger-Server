@@ -22,6 +22,7 @@ const roomSchema = new Schema(
     },
     sitThere: {
       type: Schema.Types.ObjectId,
+      ref: "User",
       default: null,
     },
   },

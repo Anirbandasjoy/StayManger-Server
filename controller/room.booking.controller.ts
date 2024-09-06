@@ -103,21 +103,62 @@ export const handleRoomBooking = async (
   }
 };
 
-export const handleCencelRoomBookingRequest = async (
+export const handleCancelRoomBookingRequest = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const { id } = req.params;
-    const booking = await findWithId(id, Booking);
-    if (booking.status === "success") {
-      return next(createError(400, "Room already booking"));
+    if (!req.user) {
+      return next(createError(401, "User not authenticated"));
     }
-    booking.status = "cencel";
-    await booking.save();
+
+    const { id } = req.params;
+    const userId = req.user._id;
+    const { sitNumber } = req.body;
+
+    const booking = await Booking.findOne({
+      room: id,
+      user: userId,
+      sitNumber: sitNumber,
+    });
+
+    if (!booking) {
+      return next(createError(404, "Booking not found with this credential"));
+    }
+
+    if (booking.status === "success") {
+      return next(createError(400, "Room has already been booked"));
+    }
+
+    await Booking.findByIdAndDelete(booking._id);
+    const bookingId = booking?._id;
+
     successResponse(res, {
-      message: "Request cencel",
+      message: "Booking request cancelled successfully",
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const handleFindSingleBooking = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    if (!req.body) {
+      return next(createError(403, "User not authnticated"));
+    }
+    const { bookingId } = req.params;
+    const booking = await Booking.findById(bookingId);
+    if (!booking) {
+      return next(createError(404, "Booking not found with this id"));
+    }
+    successResponse(res, {
+      message: "Returned single booking",
+      payload: booking,
     });
   } catch (error) {
     next(error);
@@ -133,9 +174,9 @@ export const handleExistRequest = async (
     if (!req.user) {
       return next(createError(401, "User not Authnticated"));
     }
-    const userId = req.user?._id;
+
     const roomId = req.params?.roomId;
-    const booking = await Booking.findOne({ user: userId, room: roomId })
+    const booking = await Booking.findOne({ room: roomId, user: req.user._id })
       .populate("user")
       .populate("room");
     if (!booking) {

@@ -1,9 +1,10 @@
 import { Router } from "express";
 import {
   handleBookingRequest,
-  handleCencelRoomBookingRequest,
+  handleCancelRoomBookingRequest,
   handleExistRequest,
   handleFindAllBookingRequest,
+  handleFindSingleBooking,
   handleGetUserBookingRequest,
   handleRoomBooking,
 } from "../controller/room.booking.controller";
@@ -37,13 +38,12 @@ bookingRouter.put(
   handleRoomBooking
 );
 
-bookingRouter.patch(
+bookingRouter.delete(
   "/cencel-request/:id",
+  isLogin,
   validateParamsId,
   runValidation,
-  isLogin,
-  isAdmin,
-  handleCencelRoomBookingRequest
+  handleCancelRoomBookingRequest
 );
 
 bookingRouter.get(
@@ -59,5 +59,7 @@ bookingRouter.get(
   isLogin,
   handleGetUserBookingRequest
 );
+
+bookingRouter.get("/find-single/:bookingId", isLogin, handleFindSingleBooking);
 
 export default bookingRouter;

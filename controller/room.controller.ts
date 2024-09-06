@@ -69,7 +69,13 @@ export const handleFindSingleRoom = async (
 ) => {
   try {
     const { id } = req.params;
-    const room = await findWithId(id, Room);
+    const room = await Room.findById(id)
+      .populate("sitOne")
+      .populate("sitTwo")
+      .populate("sitThere");
+    if (!room) {
+      return next(createError(404, "Room not found with this id"));
+    }
     successResponse(res, {
       message: "Single room fetch successfully",
       payload: room,

@@ -1,6 +1,14 @@
-import { model, Schema } from "mongoose";
+import { model, Schema, Document, Types } from "mongoose";
 
-const roomSchema = new Schema(
+interface IRoom extends Document {
+  sitRent: number;
+  roomImage: string;
+  sitOne: Types.ObjectId | null;
+  sitTwo: Types.ObjectId | null;
+  sitThere: Types.ObjectId | null;
+}
+
+const roomSchema = new Schema<IRoom>(
   {
     sitRent: {
       type: Number,
@@ -13,22 +21,22 @@ const roomSchema = new Schema(
     sitOne: {
       type: Schema.Types.ObjectId,
       ref: "User",
-      default: null,
+      default: null, // Allow null
     },
     sitTwo: {
       type: Schema.Types.ObjectId,
       ref: "User",
-      default: null,
+      default: null, // Allow null
     },
     sitThere: {
       type: Schema.Types.ObjectId,
       ref: "User",
-      default: null,
+      default: null, // Allow null
     },
   },
   { timestamps: true }
 );
 
-const Room = model("Room", roomSchema);
+const Room = model<IRoom>("Room", roomSchema);
 
 export default Room;

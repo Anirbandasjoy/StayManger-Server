@@ -3,6 +3,7 @@ import {
   handleDeleteRoom,
   handleFindAllRoom,
   handleFindSingleRoom,
+  handleRemoveRoomBookingUser,
   handleRemoveUserToRoom,
   handleRoomCreate,
   handleUpdateRommInfo,
@@ -32,6 +33,13 @@ roomRouter.patch(
   validateRoomParamsId,
   runValidation,
   handleRemoveUserToRoom
+);
+
+roomRouter.patch(
+  "/remove-sitbooking-user",
+  isLogin,
+  isAdmin,
+  handleRemoveRoomBookingUser
 );
 
 export default roomRouter;

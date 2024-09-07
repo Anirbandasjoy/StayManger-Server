@@ -144,3 +144,37 @@ export const handleRemoveUserToRoom = async (
     next(error);
   }
 };
+
+export const handleRemoveRoomBookingUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { roomId, sitNumber } = req.body;
+    if (!Types.ObjectId.isValid(roomId)) {
+      return next(createError(400, "Invalid Room ID"));
+    }
+
+    const room = await Room.findById(roomId);
+    if (!room) {
+      return next(createError(404, "Room not found with this ID"));
+    }
+    if (sitNumber === 1) {
+      room.sitOne = null;
+    } else if (sitNumber === 2) {
+      room.sitTwo = null;
+    } else if (sitNumber === 3) {
+      room.sitThere = null;
+    } else {
+      return next(createError(400, "Invalid sit number"));
+    }
+    await room.save();
+
+    res.status(200).json({
+      message: "User removed from the seat successfully",
+    });
+  } catch (error) {
+    next(error);
+  }
+};

@@ -55,13 +55,14 @@ userRouter.get(
 );
 userRouter.patch(
   "/update-role/:id",
+  isLogin,
+  isAdmin,
   validateUpdateUserRole,
   runValidation,
-  isLogin,
   handleUpdateUserRole
 );
 
 userRouter.put("/update-userInfo", isLogin, handleUpdateUserInformation);
-userRouter.delete("/delete-user", isLogin, isAdmin, handleUserDelete);
+userRouter.delete("/delete-user/:userId", isLogin, isAdmin, handleUserDelete);
 
 export default userRouter;

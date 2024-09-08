@@ -146,23 +146,40 @@ export const handleFindAllUsers = async (
   next: NextFunction
 ) => {
   try {
-    const { page = "1", limit = "20" } = req.query;
+    const { page = "1", limit = "20", search = "" } = req.query;
+
     const pageNumber = Math.max(parseInt(page as string, 10) || 1, 1);
     const limitNumber = Math.max(parseInt(limit as string, 10) || 20, 1);
 
-    const users = await User.find()
-      .skip((pageNumber - 1) * limitNumber)
-      .limit(limitNumber);
+    const searchRegExp = new RegExp(".*" + search + ".*", "i");
 
-    if (!users || users.length === 0) {
-      return next(createError(404, "No users found"));
-    }
+    const filter = {
+      $or: [
+        { name: { $regex: searchRegExp } },
+        { email: { $regex: searchRegExp } },
+        { address: { $regex: searchRegExp } },
+        { role: { $regex: searchRegExp } },
+        { phone: { $regex: searchRegExp } },
+        { department: { $regex: searchRegExp } },
+        { birthdate: { $regex: searchRegExp } },
+      ],
+    };
 
-    const totalUsers = await User.countDocuments();
+    const option = { password: 0 };
+
+    const allUsers = await User.find(filter, option);
+
+    const totalUsers = allUsers.length;
+
+    const users = allUsers.slice(
+      (pageNumber - 1) * limitNumber,
+      pageNumber * limitNumber
+    );
+
     const totalPages = Math.ceil(totalUsers / limitNumber);
 
     successResponse(res, {
-      message: "All users returned",
+      message: "Users retrieved successfully",
       payload: {
         users,
         pagination: {
@@ -261,7 +278,8 @@ export const handleUserDelete = async (
     if (!req.user) {
       return next(createError(403, "User not Authnticated"));
     }
-    const deletedUser = await User.findByIdAndDelete(req?.user?._id);
+    const { userId } = req.params;
+    const deletedUser = await User.findByIdAndDelete(userId);
     if (!deletedUser) {
       return next(createError(400, "User not deleted , somthing was rong"));
     }

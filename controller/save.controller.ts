@@ -17,7 +17,7 @@ export const handleSaveNotice = async (
     const existNotice = await Save.findOne({ notice: noticeId, user: userId });
     if (existNotice) {
       return errorResponse(res, {
-        statusCode: 403,
+        statusCode: 409,
         message: "Notice already exists for this Notice and Profile",
       });
     }
@@ -43,11 +43,40 @@ export const handleGetSaveNoticeForUser = async (
     }
     const userId = req.user?._id;
     const notices = await Save.find({ user: userId })
-      .populate("user")
-      .populate("notice");
+      .populate({
+        path: "notice",
+        populate: {
+          path: "author",
+          model: "User",
+        },
+      })
+      .populate({
+        path: "user",
+        model: "User",
+      });
+
     successResponse(res, {
       message: "All notice returned for this user",
       payload: notices,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const handleDeleteSave = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    if (!req.body) {
+      return next(createError(401, "User not authnticated"));
+    }
+    const { noticeId } = req.params;
+    await Save.findOneAndDelete({ user: req.user?._id, notice: noticeId });
+    successResponse(res, {
+      message: "Deleted Save Notice",
     });
   } catch (error) {
     next(error);

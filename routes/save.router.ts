@@ -3,6 +3,7 @@ import { isLogin } from "../middleware/auth";
 import { validateSaveNotice } from "../validators/save";
 import { runValidation } from "../validators";
 import {
+  handleDeleteSave,
   handleGetSaveNoticeForUser,
   handleSaveNotice,
 } from "../controller/save.controller";
@@ -17,5 +18,7 @@ saveRouter.post(
   handleSaveNotice
 );
 saveRouter.get("/find-notice", isLogin, handleGetSaveNoticeForUser);
+
+saveRouter.delete("/save-delete/:noticeId", isLogin, handleDeleteSave);
 
 export default saveRouter;

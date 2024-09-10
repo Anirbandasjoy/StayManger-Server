@@ -3,6 +3,7 @@ import {
   handleDeleteRoom,
   handleFindAllRoom,
   handleFindSingleRoom,
+  handleFindTopRatingRooms,
   handleRemoveRoomBookingUser,
   handleRemoveUserToRoom,
   handleRoomCreate,
@@ -41,5 +42,7 @@ roomRouter.patch(
   isAdmin,
   handleRemoveRoomBookingUser
 );
+
+roomRouter.get("/top-rating-room", handleFindTopRatingRooms);
 
 export default roomRouter;

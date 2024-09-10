@@ -50,8 +50,6 @@ export const handleFindRoomReview = async (
   }
 };
 
-
-
 export const handleDeleteReview = async (
   req: Request,
   res: Response,

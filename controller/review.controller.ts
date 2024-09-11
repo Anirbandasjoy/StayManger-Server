@@ -4,6 +4,7 @@ import { successResponse } from "../helper/response";
 import { createError } from "../helper/import";
 import Review from "../models/review.model";
 import { findWithId } from "../services";
+import User from "../models/user.model";
 const { ObjectId } = mongoose.Types;
 
 export const handleCreateReview = async (
@@ -57,19 +58,31 @@ export const handleDeleteReview = async (
 ) => {
   try {
     if (!req.user) {
-      return next(createError(401, "User not Authnticated"));
+      return next(createError(403, "User not authenticated"));
     }
+
+    const currentUser = await findWithId(req.user._id, User);
+
     const reviewId = req.params.reviewId;
     const review = await findWithId(reviewId, Review);
-    const reviewerUserID = review?.user;
+
+    if (!review) {
+      return next(createError(404, "Review not found"));
+    }
+
+    const reviewerUserID = review.user;
     const userId = new ObjectId(req.user._id);
-    if (!reviewerUserID.equals(userId)) {
-      return next(createError(403, "you are not Review author"));
+
+    if (!reviewerUserID.equals(userId) && currentUser?.role !== "admin") {
+      return next(
+        createError(403, "You are not the review author or an admin")
+      );
     }
 
     await Review.findByIdAndDelete(reviewId);
+
     successResponse(res, {
-      message: "Review was deleted",
+      message: "Review was deleted successfully",
     });
   } catch (error) {
     next(error);

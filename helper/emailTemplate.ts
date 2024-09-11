@@ -1,16 +1,5 @@
 import { smtpUserName } from "./secret";
-import { client_local_url, client_production_url } from "./secret";
-
-const clientURL =
-  process.env.NODE_ENV === "production"
-    ? client_production_url
-    : client_local_url;
-
-if (!clientURL) {
-  throw new Error(
-    "clientURL URL (clientURL) is not defined in the environment variables."
-  );
-}
+import { client_production_url } from "./secret";
 
 export const generateActivationEmailTemplate = (
   name: string,
@@ -66,7 +55,7 @@ export const generateActivationEmailTemplate = (
           <p>Dear ${name},</p>
           <p>Thank you for registering with us!</p>
           <p>Please click the following link to activate your account:</p>
-          <p><a href="${clientURL}/user/activate/${token}" target="_blank">Activate Account</a></p>
+          <p><a href="${client_production_url}/user/activate/${token}" target="_blank">Activate Account</a></p>
           <p>If you did not request this registration, you can ignore this email.</p>
           <p>Best regards,</p>
           <p>The [ADJPA] Team</p>

@@ -78,7 +78,7 @@ export const handleGoogleLogin = async (
       maxAge: 365 * 24 * 60 * 60 * 1000,
     });
 
-    res.redirect("http://localhost:3000");
+    res.redirect("https://staymanager404.vercel.app");
 
     successResponse(res, {
       message: "Google Login Successfully",
@@ -111,7 +111,7 @@ export const handleGithubLogin = async (
       maxAge: 365 * 24 * 60 * 60 * 1000,
     });
 
-    res.redirect("http://localhost:3000");
+    res.redirect("https://staymanager404.vercel.app");
 
     successResponse(res, {
       message: "Github Login Successfully",

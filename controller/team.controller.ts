@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
-import TeamMember from "../models/team.model";
 import { successResponse } from "../helper/response";
+import Team from "../models/team.model";
 
 export const handleGetAllTeamMember = async (
   req: Request,
@@ -8,7 +8,7 @@ export const handleGetAllTeamMember = async (
   next: NextFunction
 ) => {
   try {
-    const teamMember = await TeamMember.find();
+    const teamMember = await Team.find();
     successResponse(res, {
       message: "Returned all team members",
       payload: teamMember,

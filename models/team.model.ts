@@ -19,6 +19,6 @@ const teamMemberSchema = new Schema(
   { timestamps: true }
 );
 
-const TeamMember = model("TeamMember", teamMemberSchema);
+const Team = model("Team", teamMemberSchema);
 
-export default TeamMember;
+export default Team;

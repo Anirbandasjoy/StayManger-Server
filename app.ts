@@ -24,7 +24,6 @@ import reviewRouter from "./routes/review.router";
 
 import "./config/passport";
 import teamRouter from "./routes/team.router";
-import appearanceRouter from "./routes/appearance.router";
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -58,7 +57,6 @@ app.use("/api/v1/react", reactRouter);
 app.use("/api/v1/save", saveRouter);
 app.use("/api/v1/review", reviewRouter);
 app.use("/api/v1/team", teamRouter);
-app.use("/api/v1/appearance", appearanceRouter);
 
 app.get("/", (req: Request, res: Response) => {
   res.json({

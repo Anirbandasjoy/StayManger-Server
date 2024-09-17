@@ -59,3 +59,34 @@ export const handleSentMessage = async (
     next(error);
   }
 };
+
+export const handleGetMessage = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    if (!req.user) {
+      return next(createError(401, "user not authnticated"));
+    }
+    const { userToChatId } = req.params;
+    const senderId = req.user._id;
+    const conversation = await Conversation.findOne({
+      participants: { $all: [senderId, userToChatId] },
+    }).populate("messages");
+    if (!conversation) {
+      return successResponse(res, {
+        message: "Not found",
+        payload: [],
+      });
+    }
+    const messages = conversation.messages;
+
+    successResponse(res, {
+      message: "Returned all messages",
+      payload: messages,
+    });
+  } catch (error) {
+    next(error);
+  }
+};

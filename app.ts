@@ -30,7 +30,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(
   cors({
-    origin: ["http://localhost:3000", "https://staymanager404.vercel.app"],
+    origin: [
+      "http://localhost:3000",
+      "https://staymanager404.vercel.app",
+      "http://qrinux.com",
+    ],
     credentials: true,
   })
 );

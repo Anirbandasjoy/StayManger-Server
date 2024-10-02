@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import Conversation, { IConversation } from "../models/conversation.model";
+import Conversation from "../models/conversation.model";
 import Message from "../models/message.model";
 import { getReceiverSocketId, io } from "../socket/socket";
 import { createError } from "../helper/import";

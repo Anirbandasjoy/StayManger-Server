@@ -21,7 +21,6 @@ import commentRouter from "./routes/comment.router";
 import reactRouter from "./routes/react.router";
 import saveRouter from "./routes/save.router";
 import reviewRouter from "./routes/review.router";
-
 import "./config/passport";
 import teamRouter from "./routes/team.router";
 import messageRouter from "./routes/message.router";
@@ -33,7 +32,7 @@ app.use(
     origin: [
       "http://localhost:3000",
       "https://staymanager404.vercel.app",
-      "http://qrinux.com",
+      "https://qrinux.com",
     ],
     credentials: true,
   })
